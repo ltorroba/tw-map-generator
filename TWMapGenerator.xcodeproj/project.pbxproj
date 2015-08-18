@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		9497C4A81B8365CE0023B69C /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9497C4A71B8365CE0023B69C /* main.cpp */; };
+		9497C4B11B8376620023B69C /* libcurl.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9497C4B01B8376620023B69C /* libcurl.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +26,9 @@
 /* Begin PBXFileReference section */
 		9497C4A41B8365CE0023B69C /* TWMapGenerator */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TWMapGenerator; sourceTree = BUILT_PRODUCTS_DIR; };
 		9497C4A71B8365CE0023B69C /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		9497C4AE1B8368C80023B69C /* rapidjson */ = {isa = PBXFileReference; lastKnownFileType = folder; path = rapidjson; sourceTree = "<group>"; };
+		9497C4B01B8376620023B69C /* libcurl.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcurl.dylib; path = usr/lib/libcurl.dylib; sourceTree = SDKROOT; };
+		9497C4B21B8380B40023B69C /* Player.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Player.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,6 +36,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9497C4B11B8376620023B69C /* libcurl.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -41,6 +46,7 @@
 		9497C49B1B8365CE0023B69C = {
 			isa = PBXGroup;
 			children = (
+				9497C4B01B8376620023B69C /* libcurl.dylib */,
 				9497C4A61B8365CE0023B69C /* TWMapGenerator */,
 				9497C4A51B8365CE0023B69C /* Products */,
 			);
@@ -57,7 +63,9 @@
 		9497C4A61B8365CE0023B69C /* TWMapGenerator */ = {
 			isa = PBXGroup;
 			children = (
+				9497C4AE1B8368C80023B69C /* rapidjson */,
 				9497C4A71B8365CE0023B69C /* main.cpp */,
+				9497C4B21B8380B40023B69C /* Player.h */,
 			);
 			path = TWMapGenerator;
 			sourceTree = "<group>";
