@@ -9,7 +9,21 @@
 /* Begin PBXBuildFile section */
 		9497C4A81B8365CE0023B69C /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9497C4A71B8365CE0023B69C /* main.cpp */; };
 		9497C4B11B8376620023B69C /* libcurl.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9497C4B01B8376620023B69C /* libcurl.dylib */; };
+		9497C4B61B83D83E0023B69C /* Tribe.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9497C4B51B83D83E0023B69C /* Tribe.cpp */; };
+		9497C4B81B840B010023B69C /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9497C4B71B840B010023B69C /* Player.cpp */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXBuildRule section */
+		9497C4B91B840DAE0023B69C /* PBXBuildRule */ = {
+			isa = PBXBuildRule;
+			compilerSpec = com.apple.compilers.proxy.script;
+			fileType = pattern.proxy;
+			isEditable = 1;
+			outputFiles = (
+			);
+			script = "";
+		};
+/* End PBXBuildRule section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		9497C4A21B8365CE0023B69C /* CopyFiles */ = {
@@ -29,6 +43,10 @@
 		9497C4AE1B8368C80023B69C /* rapidjson */ = {isa = PBXFileReference; lastKnownFileType = folder; path = rapidjson; sourceTree = "<group>"; };
 		9497C4B01B8376620023B69C /* libcurl.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcurl.dylib; path = usr/lib/libcurl.dylib; sourceTree = SDKROOT; };
 		9497C4B21B8380B40023B69C /* Player.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Player.h; sourceTree = "<group>"; };
+		9497C4B31B83A6B50023B69C /* Village.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Village.h; sourceTree = "<group>"; };
+		9497C4B41B83C6CE0023B69C /* Tribe.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Tribe.h; sourceTree = "<group>"; };
+		9497C4B51B83D83E0023B69C /* Tribe.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Tribe.cpp; sourceTree = "<group>"; };
+		9497C4B71B840B010023B69C /* Player.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Player.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +84,10 @@
 				9497C4AE1B8368C80023B69C /* rapidjson */,
 				9497C4A71B8365CE0023B69C /* main.cpp */,
 				9497C4B21B8380B40023B69C /* Player.h */,
+				9497C4B71B840B010023B69C /* Player.cpp */,
+				9497C4B31B83A6B50023B69C /* Village.h */,
+				9497C4B41B83C6CE0023B69C /* Tribe.h */,
+				9497C4B51B83D83E0023B69C /* Tribe.cpp */,
 			);
 			path = TWMapGenerator;
 			sourceTree = "<group>";
@@ -82,6 +104,7 @@
 				9497C4A21B8365CE0023B69C /* CopyFiles */,
 			);
 			buildRules = (
+				9497C4B91B840DAE0023B69C /* PBXBuildRule */,
 			);
 			dependencies = (
 			);
@@ -126,7 +149,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9497C4B61B83D83E0023B69C /* Tribe.cpp in Sources */,
 				9497C4A81B8365CE0023B69C /* main.cpp in Sources */,
+				9497C4B81B840B010023B69C /* Player.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
