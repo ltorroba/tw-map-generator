@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		942745D61B87E69B003570C3 /* Village.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 942745D51B87E69B003570C3 /* Village.cpp */; };
 		9497C4A81B8365CE0023B69C /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9497C4A71B8365CE0023B69C /* main.cpp */; };
 		9497C4B11B8376620023B69C /* libcurl.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9497C4B01B8376620023B69C /* libcurl.dylib */; };
 		9497C4B61B83D83E0023B69C /* Tribe.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9497C4B51B83D83E0023B69C /* Tribe.cpp */; };
@@ -38,6 +39,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		942745D51B87E69B003570C3 /* Village.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Village.cpp; sourceTree = "<group>"; };
 		9497C4A41B8365CE0023B69C /* TWMapGenerator */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TWMapGenerator; sourceTree = BUILT_PRODUCTS_DIR; };
 		9497C4A71B8365CE0023B69C /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		9497C4AE1B8368C80023B69C /* rapidjson */ = {isa = PBXFileReference; lastKnownFileType = folder; path = rapidjson; sourceTree = "<group>"; };
@@ -86,6 +88,7 @@
 				9497C4B21B8380B40023B69C /* Player.h */,
 				9497C4B71B840B010023B69C /* Player.cpp */,
 				9497C4B31B83A6B50023B69C /* Village.h */,
+				942745D51B87E69B003570C3 /* Village.cpp */,
 				9497C4B41B83C6CE0023B69C /* Tribe.h */,
 				9497C4B51B83D83E0023B69C /* Tribe.cpp */,
 			);
@@ -149,6 +152,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				942745D61B87E69B003570C3 /* Village.cpp in Sources */,
 				9497C4B61B83D83E0023B69C /* Tribe.cpp in Sources */,
 				9497C4A81B8365CE0023B69C /* main.cpp in Sources */,
 				9497C4B81B840B010023B69C /* Player.cpp in Sources */,
@@ -268,6 +272,7 @@
 				9497C4AD1B8365CE0023B69C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

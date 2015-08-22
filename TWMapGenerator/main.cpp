@@ -130,6 +130,83 @@ void update_player_map (string json, unordered_map<int, Tribe*> *tribe_map, unor
     }
 }
 
+vector<string> &split(const string &s, char delim, vector<string> &elems) {
+    stringstream ss(s);
+    string item;
+    
+    while(getline(ss, item, delim)) {
+        elems.push_back(item);
+    }
+    
+    return elems;
+}
+
+vector<string> split(const string &s, char delim) {
+    vector<string> elems;
+    split(s, delim, elems);
+    return elems;
+}
+
+struct Coordinate {
+    unsigned long int x;
+    unsigned long int y;
+};
+
+Coordinate parse_coordinate(string s) {
+    vector<string> arr = split(s, '-');
+    
+    assert(arr.size() == 3);
+    
+    Coordinate c;
+    c.x = atoi(arr[1].c_str());
+    c.y = atoi(arr[2].c_str());
+    
+    return c;
+}
+
+Player* get_player_by_id(int id, unordered_map<int, Player*> *player_map) {
+    // No owner - nullptr
+    if(id == 0)
+        return nullptr;
+    
+    Player*& ptr = (*player_map)[id];
+    
+    if(ptr == 0) {
+        player_map->erase(id);
+        return nullptr;
+    }
+    
+    return ptr;
+}
+
+void update_village_map(string json, unordered_map<int, Tribe*> *tribe_map, unordered_map<int, Player*> *player_map, unordered_map<int, Village*> *village_map) {
+    rapidjson::Document document;
+    document.Parse<0>(json.c_str());
+    
+    rapidjson::Value& village_data_object = document["villagedata"];
+    
+    for(rapidjson::Value::MemberIterator itr = village_data_object.MemberBegin(); itr != village_data_object.MemberEnd(); ++itr) {
+        rapidjson::Value& arr = itr->value;
+        
+        Village*& ptr = (*village_map)[arr[0u].GetUint()];
+        
+        /*
+         unsigned long int x, unsigned long int y, Player *owner, unsigned long int points,
+         std::string name
+         */
+        
+        if(ptr == 0) {
+            Coordinate c = parse_coordinate(itr->name.GetString());
+            
+            unsigned long int x = c.x;
+            unsigned long int y = c.y;
+            Player *owner = get_player_by_id(arr[1].GetUint(), player_map);
+            unsigned long int points = arr[2].GetUint();
+            string name = arr[3].GetString();
+        }
+    }
+}
+
 int main(int argc, const char * argv[]) {
     // Initialize libcurl
     curl_global_init(CURL_GLOBAL_ALL);
@@ -137,9 +214,12 @@ int main(int argc, const char * argv[]) {
     // Initialize variables
     unordered_map<int, Tribe*> tribe_map;
     unordered_map<int, Player*> player_map;
+    unordered_map<int, Village*> village_map;
+    
+    long timestamp = time(nullptr);
     
     for(int i = 0; i <= 99; i++) {
-        string url = generate_continent_json_url(i, 60, "br");
+        string url = generate_continent_json_url(i, 70, "br", timestamp);
         
         cout << "Target url: " << url << endl;
         
@@ -150,6 +230,9 @@ int main(int argc, const char * argv[]) {
         
         update_player_map(data, &tribe_map, &player_map);
         cout << "Player map size: " << player_map.size() << endl;
+        
+        update_village_map(data, &tribe_map, &player_map, &village_map);
+        cout << "Village map size: " << village_map.size() << endl;
     }
     
     // Destroy libcurl

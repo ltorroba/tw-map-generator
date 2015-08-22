@@ -28,7 +28,7 @@ private:
     
     unsigned long int get_x() const { return x; }
     unsigned long int get_y() const { return y; }
-    Player get_owner() const { return *owner; }
+    Player *get_owner() const { return owner; }
     unsigned long int get_points() const { return points; }
     std::string get_name() const { return name; }
     
