@@ -20,7 +20,7 @@ private:
     unsigned long int points;
     std::string name;
     
-private:
+public:
     Village();
     Village(unsigned long int x, unsigned long int y, Player *owner, unsigned long int points,
             std::string name);

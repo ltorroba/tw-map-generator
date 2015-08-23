@@ -10,6 +10,9 @@
 #define TWMapGenerator_Tribe_h
 
 #include <string>
+#include <vector>
+
+class Player;
 
 class Tribe {
 private:
@@ -23,6 +26,7 @@ private:
     unsigned long int oda_rank;
     unsigned long int odd_rank;
     std::string name;
+    std::vector<Player*> players;
     
 public:
     Tribe();
@@ -42,6 +46,7 @@ public:
     unsigned long int get_oda_rank() const { return oda_rank; }
     unsigned long int get_odd_rank() const { return odd_rank; }
     std::string get_name() const { return name; }
+    std::vector<Player*> get_players() const { return players; }
     
     void set_points(unsigned long int val) { this->points = val; }
     void set_members(unsigned long int val) { this->members = val; }
@@ -53,6 +58,7 @@ public:
     void set_oda_rank (unsigned long int val) { this->oda_rank = val; }
     void set_odd_rank (unsigned long int val) { this->odd_rank = val; }
     void set_name (std::string val) { this->name = val; }
+    void add_player (Player* val) { this->players.push_back(val); }
     
 };
 

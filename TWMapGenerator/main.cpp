@@ -124,8 +124,10 @@ void update_player_map (string json, unordered_map<int, Tribe*> *tribe_map, unor
             unsigned long int oda_rank = arr[11].GetUint();
             unsigned long int odd_rank = arr[12].GetUint();
             
-            Player p(points, tribe, username, villages, points_rank, oda, odd, oda_rank, odd_rank);
-            ptr = &p;
+            Player* p = new Player(points, tribe, username, villages, points_rank, oda, odd, oda_rank, odd_rank);
+            ptr = p;
+            if(tribe != nullptr)
+                tribe->add_player(p);
         }
     }
 }
@@ -190,11 +192,6 @@ void update_village_map(string json, unordered_map<int, Tribe*> *tribe_map, unor
         
         Village*& ptr = (*village_map)[arr[0u].GetUint()];
         
-        /*
-         unsigned long int x, unsigned long int y, Player *owner, unsigned long int points,
-         std::string name
-         */
-        
         if(ptr == 0) {
             Coordinate c = parse_coordinate(itr->name.GetString());
             
@@ -203,6 +200,11 @@ void update_village_map(string json, unordered_map<int, Tribe*> *tribe_map, unor
             Player *owner = get_player_by_id(arr[1].GetUint(), player_map);
             unsigned long int points = arr[2].GetUint();
             string name = arr[3].GetString();
+            
+            Village* v = new Village(x, y, owner, points, name);
+            ptr = v;
+            if(owner != nullptr)
+                owner->add_village(v);
         }
     }
 }
@@ -219,7 +221,7 @@ int main(int argc, const char * argv[]) {
     long timestamp = time(nullptr);
     
     for(int i = 0; i <= 99; i++) {
-        string url = generate_continent_json_url(i, 70, "br", timestamp);
+        string url = generate_continent_json_url(i, 23, "br", timestamp);
         
         cout << "Target url: " << url << endl;
         

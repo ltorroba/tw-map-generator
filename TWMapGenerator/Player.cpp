@@ -11,13 +11,13 @@
 Player::Player() { }
 
 Player::Player(unsigned long int points, Tribe *tribe,
-       std::string username, unsigned long int villages, unsigned long int points_rank,
+       std::string username, unsigned long int num_villages, unsigned long int points_rank,
        unsigned long int oda, unsigned long int odd, unsigned long int oda_rank,
        unsigned long int odd_rank) {
     this->set_points(points);
     this->set_tribe(tribe);
     this->set_username(username);
-    this->set_villages(villages);
+    this->set_num_villages(num_villages);
     this->set_points_rank(points_rank);
     this->set_oda(oda);
     this->set_odd(odd);
