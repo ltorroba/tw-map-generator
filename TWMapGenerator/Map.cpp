@@ -118,17 +118,17 @@ void Map::generate_top_tribes_map(string file, unordered_map<int, Tribe*> *tribe
     draw_background(cr);
     
     // Draw villages
-    //vector<Tribe*> tribes = Utilities::get_local_top_tribes(10, tribe_map);
     vector<Tribe*> tribes = Utilities::get_top_tribes(10, tribe_map);
     
     int color;
     
     for(auto t : tribes) {
         vector<Player*> players = t->get_players();
+        vector<Player*> players_filtered = Utilities::get_local_top_players(10, &players);
         
         cairo_set_line_width(cr, 2.0);
         
-        for(auto p : players) {
+        for(auto p : players_filtered) {
             for(auto v : p->get_villages()) {
                 int x = v->get_x();
                 int y = v->get_y();
