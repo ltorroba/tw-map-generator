@@ -12,6 +12,8 @@
 		9497C4B11B8376620023B69C /* libcurl.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9497C4B01B8376620023B69C /* libcurl.dylib */; };
 		9497C4B61B83D83E0023B69C /* Tribe.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9497C4B51B83D83E0023B69C /* Tribe.cpp */; };
 		9497C4B81B840B010023B69C /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9497C4B71B840B010023B69C /* Player.cpp */; };
+		94C27CFA1B8A483F003E4F45 /* Map.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94C27CF81B8A483F003E4F45 /* Map.cpp */; };
+		94C27CFD1B8A87FA003E4F45 /* Utilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94C27CFB1B8A87FA003E4F45 /* Utilities.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -27,13 +29,14 @@
 /* End PBXBuildRule section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		9497C4A21B8365CE0023B69C /* CopyFiles */ = {
+		9497C4A21B8365CE0023B69C /* Copy Files */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = /usr/share/man/man1/;
 			dstSubfolderSpec = 0;
 			files = (
 			);
+			name = "Copy Files";
 			runOnlyForDeploymentPostprocessing = 1;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -49,6 +52,10 @@
 		9497C4B41B83C6CE0023B69C /* Tribe.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Tribe.h; sourceTree = "<group>"; };
 		9497C4B51B83D83E0023B69C /* Tribe.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Tribe.cpp; sourceTree = "<group>"; };
 		9497C4B71B840B010023B69C /* Player.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Player.cpp; sourceTree = "<group>"; };
+		94C27CF81B8A483F003E4F45 /* Map.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Map.cpp; sourceTree = "<group>"; };
+		94C27CF91B8A483F003E4F45 /* Map.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Map.h; sourceTree = "<group>"; };
+		94C27CFB1B8A87FA003E4F45 /* Utilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Utilities.cpp; sourceTree = "<group>"; };
+		94C27CFC1B8A87FA003E4F45 /* Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utilities.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,6 +98,10 @@
 				942745D51B87E69B003570C3 /* Village.cpp */,
 				9497C4B41B83C6CE0023B69C /* Tribe.h */,
 				9497C4B51B83D83E0023B69C /* Tribe.cpp */,
+				94C27CF81B8A483F003E4F45 /* Map.cpp */,
+				94C27CF91B8A483F003E4F45 /* Map.h */,
+				94C27CFB1B8A87FA003E4F45 /* Utilities.cpp */,
+				94C27CFC1B8A87FA003E4F45 /* Utilities.h */,
 			);
 			path = TWMapGenerator;
 			sourceTree = "<group>";
@@ -104,7 +115,7 @@
 			buildPhases = (
 				9497C4A01B8365CE0023B69C /* Sources */,
 				9497C4A11B8365CE0023B69C /* Frameworks */,
-				9497C4A21B8365CE0023B69C /* CopyFiles */,
+				9497C4A21B8365CE0023B69C /* Copy Files */,
 			);
 			buildRules = (
 				9497C4B91B840DAE0023B69C /* PBXBuildRule */,
@@ -153,6 +164,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				942745D61B87E69B003570C3 /* Village.cpp in Sources */,
+				94C27CFA1B8A483F003E4F45 /* Map.cpp in Sources */,
+				94C27CFD1B8A87FA003E4F45 /* Utilities.cpp in Sources */,
 				9497C4B61B83D83E0023B69C /* Tribe.cpp in Sources */,
 				9497C4A81B8365CE0023B69C /* main.cpp in Sources */,
 				9497C4B81B840B010023B69C /* Player.cpp in Sources */,
@@ -242,14 +255,54 @@
 		9497C4AC1B8365CE0023B69C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				ARCHS = "$(ARCHS_STANDARD)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/usr/local/lib,
+				);
+				OTHER_CFLAGS = "";
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-Wno-c++11-narrowing",
+				);
+				OTHER_LDFLAGS = (
+					"-v",
+					"-lcairo",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "/usr/local/Cellar/cairo/1.14.2_1/include/cairo $(SRCROOT)/**";
 			};
 			name = Debug;
 		};
 		9497C4AD1B8365CE0023B69C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				ARCHS = "$(ARCHS_STANDARD)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/usr/local/lib,
+				);
+				OTHER_CFLAGS = "";
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-Wno-c++11-narrowing",
+				);
+				OTHER_LDFLAGS = (
+					"-v",
+					"-lcairo",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "/usr/local/Cellar/cairo/1.14.2_1/include/cairo $(SRCROOT)/**";
 			};
 			name = Release;
 		};

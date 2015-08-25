@@ -13,12 +13,14 @@
 #include <vector>
 #include <unordered_map>
 
+#include "rapidjson/document.h"
 #include "Tribe.h"
 #include "Player.h"
 #include "Village.h"
-#include "rapidjson/document.h"
+#include "Map.h"
 
 using namespace std;
+
 
 string generate_continent_json_url(int continent, int world, string server, long timestamp) {
     ostringstream url;
@@ -218,10 +220,15 @@ int main(int argc, const char * argv[]) {
     unordered_map<int, Player*> player_map;
     unordered_map<int, Village*> village_map;
     
+    vector<Tribe*> top_tribes;
+    vector<Player*> top_players;
+    
+    
     long timestamp = time(nullptr);
     
+    //for(int i; false; ){
     for(int i = 0; i <= 99; i++) {
-        string url = generate_continent_json_url(i, 23, "br", timestamp);
+        string url = generate_continent_json_url(i, 70, "br", timestamp);
         
         cout << "Target url: " << url << endl;
         
@@ -236,6 +243,10 @@ int main(int argc, const char * argv[]) {
         update_village_map(data, &tribe_map, &player_map, &village_map);
         cout << "Village map size: " << village_map.size() << endl;
     }
+    
+    cout << "Generating image..." << endl;
+    
+    Map::generate_map("/Users/ltorroba/Desktop/map.png", &tribe_map, &player_map, &village_map);
     
     // Destroy libcurl
     curl_global_cleanup();
