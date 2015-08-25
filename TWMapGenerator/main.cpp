@@ -226,7 +226,7 @@ int main(int argc, const char * argv[]) {
     
     long timestamp = time(nullptr);
     
-    //for(int i; false; ){
+    //for(int i = 64; i <= 65; i++){
     for(int i = 0; i <= 99; i++) {
         string url = generate_continent_json_url(i, 70, "br", timestamp);
         
