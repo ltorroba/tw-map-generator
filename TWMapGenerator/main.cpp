@@ -228,7 +228,7 @@ int main(int argc, const char * argv[]) {
     
     //for(int i = 64; i <= 65; i++){
     for(int i = 0; i <= 99; i++) {
-        string url = generate_continent_json_url(i, 70, "br", timestamp);
+        string url = generate_continent_json_url(i, 60, "br", timestamp);
         
         cout << "Target url: " << url << endl;
         
@@ -246,7 +246,7 @@ int main(int argc, const char * argv[]) {
     
     cout << "Generating image..." << endl;
     
-    Map::generate_map("/Users/ltorroba/Desktop/map.png", &tribe_map, &player_map, &village_map);
+    Map::generate_top_tribes_map("/Users/ltorroba/Desktop/top_tribes.png", &tribe_map, &player_map, &village_map);
     
     // Destroy libcurl
     curl_global_cleanup();

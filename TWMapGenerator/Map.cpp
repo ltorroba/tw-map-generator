@@ -47,7 +47,7 @@ vector<RGB> Map::get_palette() {
     palette.push_back(RGB(0, 0, 255)); // Blue
     palette.push_back(RGB(0, 153, 255)); // Light blue
     palette.push_back(RGB(0, 255, 255)); // Cyan
-    palette.push_back(RGB(0, 255, 0)); // Green
+    palette.push_back(RGB(233, 165, 255)); // Pink
     palette.push_back(RGB(153, 255, 0)); // Lime
     
     return palette;
@@ -109,7 +109,7 @@ void Map::draw_background(cairo_t *cr) {
     cairo_fill(cr);
 }
 
-void Map::generate_map(string file, unordered_map<int, Tribe*> *tribe_map,
+void Map::generate_top_tribes_map(string file, unordered_map<int, Tribe*> *tribe_map,
                        unordered_map<int, Player*> *player_map, unordered_map<int, Village*> *village_map) {
     cairo_surface_t *surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 1000, 1000);
     cairo_t *cr = cairo_create (surface);
@@ -118,7 +118,8 @@ void Map::generate_map(string file, unordered_map<int, Tribe*> *tribe_map,
     draw_background(cr);
     
     // Draw villages
-    vector<Tribe*> tribes = Utilities::get_local_top_tribes(10, tribe_map);
+    //vector<Tribe*> tribes = Utilities::get_local_top_tribes(10, tribe_map);
+    vector<Tribe*> tribes = Utilities::get_top_tribes(10, tribe_map);
     
     int color;
     

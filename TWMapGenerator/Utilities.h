@@ -18,15 +18,23 @@
 #include "Village.h"
 
 struct Local_Tribe;
+struct Local_Player;
 
 class Utilities {
-private:
     static bool is_tribe_better(Local_Tribe* i, Local_Tribe* j);
+    static bool is_player_better(Local_Player* i, Local_Player* j);
+    
 public:
     static std::vector<Tribe*> get_top_tribes(int number, std::unordered_map<int, Tribe*> *tribe_map);
     static std::vector<Player*> get_top_players(int number, std::unordered_map<int, Player*> *player_map);
     static std::vector<Village*> get_tribe_villages(int id, std::unordered_map<int, Tribe*> *tribe_map);
+    
     static std::vector<Tribe*> get_local_top_tribes(int number, std::unordered_map<int, Tribe*> *tribe_map);
+    static std::vector<Tribe*> get_local_top_tribes(int number, std::vector<Tribe*> *tribes);
+    
+    static std::vector<Player*> get_local_top_players(int number, std::unordered_map<int, Player*> *player_map);
+    static std::vector<Player*> get_local_top_players(int number, std::vector<Player*> *players);
+    
     static int get_tribe_id_by_name(std::string name, std::unordered_map<int, Tribe*> *tribe_map);
     static int get_tribe_id_by_tag(std::string tag, std::unordered_map<int, Tribe*> *tribe_map);
 };
