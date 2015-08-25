@@ -14,6 +14,7 @@
 		9497C4B81B840B010023B69C /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9497C4B71B840B010023B69C /* Player.cpp */; };
 		94C27CFA1B8A483F003E4F45 /* Map.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94C27CF81B8A483F003E4F45 /* Map.cpp */; };
 		94C27CFD1B8A87FA003E4F45 /* Utilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94C27CFB1B8A87FA003E4F45 /* Utilities.cpp */; };
+		94C27D001B8C9A35003E4F45 /* Downloader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94C27CFE1B8C9A35003E4F45 /* Downloader.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -56,6 +57,8 @@
 		94C27CF91B8A483F003E4F45 /* Map.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Map.h; sourceTree = "<group>"; };
 		94C27CFB1B8A87FA003E4F45 /* Utilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Utilities.cpp; sourceTree = "<group>"; };
 		94C27CFC1B8A87FA003E4F45 /* Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utilities.h; sourceTree = "<group>"; };
+		94C27CFE1B8C9A35003E4F45 /* Downloader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Downloader.cpp; sourceTree = "<group>"; };
+		94C27CFF1B8C9A35003E4F45 /* Downloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Downloader.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +105,8 @@
 				94C27CF91B8A483F003E4F45 /* Map.h */,
 				94C27CFB1B8A87FA003E4F45 /* Utilities.cpp */,
 				94C27CFC1B8A87FA003E4F45 /* Utilities.h */,
+				94C27CFE1B8C9A35003E4F45 /* Downloader.cpp */,
+				94C27CFF1B8C9A35003E4F45 /* Downloader.h */,
 			);
 			path = TWMapGenerator;
 			sourceTree = "<group>";
@@ -163,6 +168,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				94C27D001B8C9A35003E4F45 /* Downloader.cpp in Sources */,
 				942745D61B87E69B003570C3 /* Village.cpp in Sources */,
 				94C27CFA1B8A483F003E4F45 /* Map.cpp in Sources */,
 				94C27CFD1B8A87FA003E4F45 /* Utilities.cpp in Sources */,

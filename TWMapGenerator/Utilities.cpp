@@ -236,3 +236,35 @@ int Utilities::get_tribe_id_by_tag(std::string tag, std::unordered_map<int, Trib
     
     return -1;
 }
+
+Tribe* Utilities::get_tribe_by_id (unsigned long int id, unordered_map<int, Tribe*> *tribe_map) {
+    // No tribe - nullptr
+    if(id == 0)
+        return nullptr;
+    
+    Tribe*& ptr = (*tribe_map)[id];
+    
+    // Accessing a non-existent key creates is automatically. Remove it.
+    if(ptr == 0) {
+        tribe_map->erase(id);
+        return nullptr;
+    }
+    
+    return ptr;
+}
+
+
+Player* Utilities::get_player_by_id(unsigned long int id, unordered_map<int, Player*> *player_map) {
+    // No owner - nullptr
+    if(id == 0)
+        return nullptr;
+    
+    Player*& ptr = (*player_map)[id];
+    
+    if(ptr == 0) {
+        player_map->erase(id);
+        return nullptr;
+    }
+    
+    return ptr;
+}

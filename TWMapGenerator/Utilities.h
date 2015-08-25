@@ -37,6 +37,9 @@ public:
     
     static int get_tribe_id_by_name(std::string name, std::unordered_map<int, Tribe*> *tribe_map);
     static int get_tribe_id_by_tag(std::string tag, std::unordered_map<int, Tribe*> *tribe_map);
+    
+    static Tribe* get_tribe_by_id (unsigned long int id, std::unordered_map<int, Tribe*> *tribe_map);
+    static Player* get_player_by_id(unsigned long int id, std::unordered_map<int, Player*> *player_map);
 };
 
 #endif /* defined(__TWMapGenerator__Utilities__) */
