@@ -268,3 +268,13 @@ Player* Utilities::get_player_by_id(unsigned long int id, unordered_map<int, Pla
     
     return ptr;
 }
+
+unsigned long Utilities::get_village_count(Tribe* tribe) {
+    unsigned long res = 0;
+    
+    for (auto p : tribe->get_players()) {
+        res += p->get_num_villages();
+    }
+    
+    return res;
+}

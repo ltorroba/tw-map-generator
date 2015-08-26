@@ -40,6 +40,8 @@ public:
     
     static Tribe* get_tribe_by_id (unsigned long int id, std::unordered_map<int, Tribe*> *tribe_map);
     static Player* get_player_by_id(unsigned long int id, std::unordered_map<int, Player*> *player_map);
+    
+    static unsigned long get_village_count(Tribe* tribe);
 };
 
 #endif /* defined(__TWMapGenerator__Utilities__) */

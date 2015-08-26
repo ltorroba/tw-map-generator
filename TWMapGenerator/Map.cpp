@@ -10,6 +10,9 @@
 #include "cairo.h"
 #include <sstream>
 #include <cmath>
+#include <algorithm>
+#include <iomanip>
+#include <ctime>
 
 #include "Utilities.h"
 #include "Map.h"
@@ -109,7 +112,42 @@ void Map::draw_background(cairo_t *cr) {
     cairo_fill(cr);
 }
 
-void Map::draw_sidebar(cairo_t *cr, string server, int world, int type) {
+string Map::pretty_number(unsigned long int n) {
+    ostringstream ss;
+    ss << n;
+    
+    string temp = ss.str();
+    ss.str("");
+    
+    for(int i = temp.length() - 1; i >= 0; i -= 3) {
+        if(i - 3 >= 0)
+            ss << temp[i] << temp[i-1] << temp[i-2] << ",";
+        else if (i - 2 == 0)
+            ss << temp[i] << temp[i-1] << temp[i-2];
+        else if (i - 1 == 0)
+            ss << temp[i] << temp[i-1];
+        else
+            ss << temp [i];
+    }
+    
+    string pretty = ss.str();
+    reverse(pretty.begin(), pretty.end());
+    
+    return pretty;
+}
+
+string Map::pretty_date() {
+    ostringstream ss;
+    
+    auto t = time(nullptr);
+    auto tm = localtime(&t);
+    
+    ss << put_time(tm, "%A, %B %e, %Y");
+    
+    return ss.str();
+}
+
+void Map::draw_sidebar_base(cairo_t *cr, string server, int world) {
     // Readjust canvas
     cairo_scale(cr, 0.5, 0.5);
     cairo_translate(cr, -600.0, 0.0);
@@ -119,6 +157,31 @@ void Map::draw_sidebar(cairo_t *cr, string server, int world, int type) {
     cairo_rectangle(cr, 0.0, 0.0, 600.0, 2000.0);
     cairo_fill(cr);
     
+    ostringstream ss;
+    
+    // Draw signature
+    cairo_set_source_rgb(cr, 157.0/256.0, 157.0/256.0, 157.0/256.0);
+    
+    ss.str("");
+    ss << "MAP BY ZESME";
+    
+    cairo_set_font_size (cr, 40.0);
+    cairo_move_to(cr, 30.0, 1940.0);
+    cairo_show_text(cr, ss.str().c_str());
+    
+    cairo_select_font_face(cr, "helvetica", CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_NORMAL);
+    
+    ss.str("");
+    ss << "www.zes.me";
+    
+    cairo_set_font_size(cr, 30.0);
+    cairo_move_to(cr, 30.0, 1970.0);
+    cairo_show_text(cr, ss.str().c_str());
+}
+
+void Map::draw_sidebar_top_tribes(cairo_t *cr, std::string server, int world, std::vector<Tribe*> tribes) {
+    draw_sidebar_base(cr, server, world);
+    
     // Draw title
     cairo_set_source_rgb(cr, 1.0, 1.0, 1.0);
     
@@ -126,30 +189,74 @@ void Map::draw_sidebar(cairo_t *cr, string server, int world, int type) {
     cairo_set_font_size (cr, 72.0);
     
     ostringstream ss;
-    switch (type) {
-        case 0:
-            ss << "TOP 10 TRIBES";
-            break;
-            
-        default:
-            cairo_set_font_size (cr, 80.0);
-            ss << "UNKNOWN";
-            break;
-    }
+    ss << "TOP 10 TRIBES";
     
     cairo_move_to(cr, 30.0, 100.0);
     cairo_show_text(cr, ss.str().c_str());
     
     // Draw subtitle
     cairo_set_source_rgb(cr, 157.0/256.0, 157.0/256.0, 157.0/256.0);
-    cairo_set_font_size (cr, 40.0);
+    cairo_set_font_size (cr, 60.0);
     
     ss.str("");
     ss << server << world;
     
-    cairo_move_to(cr, 30.0, 150.0);
+    cairo_move_to(cr, 30.0, 170.0);
     cairo_show_text(cr, ss.str().c_str());
     
+    // Draw time
+    cairo_set_source_rgb(cr, 200.0/256.0, 200.0/256.0, 200.0/256.0);
+    cairo_set_font_size (cr, 30.0);
+    
+    string time = pretty_date();
+    
+    transform(time.begin(), time.end(), time.begin(), ::toupper);
+    
+    cairo_move_to(cr, 30.0, 210.0);
+    cairo_show_text(cr, time.c_str());
+    
+    // Start drawing stats
+    int color = 0;
+    
+    for(auto t : tribes) {
+        set_palette(color, cr);
+        
+        double base = 230.0 + 150.0*color;
+        
+        // Tag
+        cairo_set_font_size(cr, 50.0);
+        cairo_move_to(cr, 30.0, base + 50.0);
+        cairo_show_text(cr, t->get_tag().c_str());
+        
+        // Points (top 40 players)
+        cairo_set_font_size(cr, 30.0);
+        cairo_move_to(cr, 30.0, base + 80.0);
+        
+        ss.str("");
+        ss << pretty_number(t->get_points()).c_str() << " points";
+        
+        cairo_show_text(cr, ss.str().c_str());
+        
+        // Village count
+        cairo_set_font_size(cr, 30.0);
+        cairo_move_to(cr, 30.0, base + 110.0);
+        
+        ss.str("");
+        ss << pretty_number(Utilities::get_village_count(t)).c_str() << " villages";
+        
+        cairo_show_text(cr, ss.str().c_str());
+        
+        // Member count
+        cairo_set_font_size(cr, 30.0);
+        cairo_move_to(cr, 30.0, base + 140.0);
+        
+        ss.str("");
+        ss << pretty_number(t->get_members()).c_str() << " members";
+        
+        cairo_show_text(cr, ss.str().c_str());
+        
+        color++;
+    }
 }
 
 void Map::generate_top_tribes_map(string file, unordered_map<int, Tribe*> *tribe_map,
@@ -170,12 +277,11 @@ void Map::generate_top_tribes_map(string file, unordered_map<int, Tribe*> *tribe
     int color = 0;
     
     for(auto t : tribes) {
-        vector<Player*> players_filtered = t->get_players();
-        //vector<Player*> players_filtered = Utilities::get_local_top_players(10, &players);
+        vector<Player*> players = t->get_players();
         
         cairo_set_line_width(cr, 1.0);
         
-        for(auto p : players_filtered) {
+        for(auto p : players) {
             for(auto v : p->get_villages()) {
                 int x = v->get_x();
                 int y = v->get_y();
@@ -188,9 +294,7 @@ void Map::generate_top_tribes_map(string file, unordered_map<int, Tribe*> *tribe
                 cairo_rectangle(cr, x-1, y-1, 3, 3);
                 cairo_stroke(cr);
             }
-        }        
-        
-        //cout << "Used color: " << color << endl;
+        }
         
         color++;
         cairo_fill(cr);
@@ -200,7 +304,7 @@ void Map::generate_top_tribes_map(string file, unordered_map<int, Tribe*> *tribe
     draw_grid(cr);
     
     // Draw sidebar
-    draw_sidebar(cr, server, world, 0);
+    draw_sidebar_top_tribes(cr, server, world, tribes);
     
     // Flush and destroy
     cairo_destroy (cr);
