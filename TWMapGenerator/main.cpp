@@ -81,7 +81,7 @@ int main(int argc, const char * argv[]) {
     
     cout << "Generating image..." << endl;
     
-    Map::generate_top_tribes_map("/Users/ltorroba/Desktop/top_tribes.png", &tribe_map, &player_map, &village_map);
+    Map::generate_top_tribes_map("/Users/ltorroba/Desktop/top_tribes.png", &tribe_map, &player_map, &village_map, "EN", 70);
     
     // Destroy libcurl
     curl_global_cleanup();

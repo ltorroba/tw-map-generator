@@ -23,11 +23,12 @@ struct RGB;
 class Map {    
 public:
     static void generate_top_tribes_map(std::string filename, std::unordered_map<int, Tribe*> *tribe_map,
-                             std::unordered_map<int, Player*> *player_map, std::unordered_map<int, Village*> *village_map);
+                                        std::unordered_map<int, Player*> *player_map, std::unordered_map<int, Village*> *village_map, std::string server, int world);
     static void generate_top_players_map(std::string filename, std::unordered_map<int, Tribe*> *tribe_map,
-                                         std::unordered_map<int, Player*> *player_map, std::unordered_map<int, Village*> *village_map);
+                                         std::unordered_map<int, Player*> *player_map, std::unordered_map<int, Village*> *village_map, std::string server, int world);
     static void draw_background(cairo_t *cr);
     static void draw_grid(cairo_t *cr);
+    static void draw_sidebar(cairo_t *cr, std::string server, int world, int type);
     static std::vector<RGB> get_palette();
     static void set_palette (int color, cairo_t *cr);
     static void set_palette (int color, double alpha, cairo_t *cr);

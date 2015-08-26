@@ -109,11 +109,56 @@ void Map::draw_background(cairo_t *cr) {
     cairo_fill(cr);
 }
 
+void Map::draw_sidebar(cairo_t *cr, string server, int world, int type) {
+    // Readjust canvas
+    cairo_scale(cr, 0.5, 0.5);
+    cairo_translate(cr, -600.0, 0.0);
+    
+    // Draw background
+    cairo_set_source_rgb(cr, 33.0/256.0, 33.0/256.0, 33.0/256.0);
+    cairo_rectangle(cr, 0.0, 0.0, 600.0, 2000.0);
+    cairo_fill(cr);
+    
+    // Draw title
+    cairo_set_source_rgb(cr, 1.0, 1.0, 1.0);
+    
+    cairo_select_font_face(cr, "helvetica", CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_BOLD);
+    cairo_set_font_size (cr, 72.0);
+    
+    ostringstream ss;
+    switch (type) {
+        case 0:
+            ss << "TOP 10 TRIBES";
+            break;
+            
+        default:
+            cairo_set_font_size (cr, 80.0);
+            ss << "UNKNOWN";
+            break;
+    }
+    
+    cairo_move_to(cr, 30.0, 100.0);
+    cairo_show_text(cr, ss.str().c_str());
+    
+    // Draw subtitle
+    cairo_set_source_rgb(cr, 157.0/256.0, 157.0/256.0, 157.0/256.0);
+    cairo_set_font_size (cr, 40.0);
+    
+    ss.str("");
+    ss << server << world;
+    
+    cairo_move_to(cr, 30.0, 150.0);
+    cairo_show_text(cr, ss.str().c_str());
+    
+}
+
 void Map::generate_top_tribes_map(string file, unordered_map<int, Tribe*> *tribe_map,
-                       unordered_map<int, Player*> *player_map, unordered_map<int, Village*> *village_map) {
-    cairo_surface_t *surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 2000, 2000);
+                                  unordered_map<int, Player*> *player_map, unordered_map<int, Village*> *village_map,
+                                  string server, int world) {
+    cairo_surface_t *surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 2600, 2000);
     cairo_t *cr = cairo_create (surface);
     
+    cairo_translate(cr, 600.0, 0.0);
     cairo_scale(cr, 2.0, 2.0);
     
     // Draw background
@@ -153,6 +198,9 @@ void Map::generate_top_tribes_map(string file, unordered_map<int, Tribe*> *tribe
     
     // Draw grid
     draw_grid(cr);
+    
+    // Draw sidebar
+    draw_sidebar(cr, server, world, 0);
     
     // Flush and destroy
     cairo_destroy (cr);
