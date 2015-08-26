@@ -58,7 +58,7 @@ int main(int argc, const char * argv[]) {
     cout << "Beginning asynchronous download..." << endl;
     
     for(int i = 0; i <= 99; i++) {
-        thread* t = new thread(download_continent_data, i, 70, "br", timestamp, &data);
+        thread* t = new thread(download_continent_data, i, 70, "en", timestamp, &data);
         threads.push_back(t);
     }
     

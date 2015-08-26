@@ -65,7 +65,7 @@ void Map::set_palette (int id, double alpha, cairo_t *cr) {
 
 void Map::draw_grid(cairo_t *cr) {
     // Adjust pen for lines
-    cairo_set_source_rgba(cr, 0.0, 0.0, 0.0, 0.4);
+    cairo_set_source_rgba(cr, 1.0, 1.0, 1.0, 0.8);
     cairo_set_line_width(cr, 1.0);
     
     // Draw verical lines
@@ -83,7 +83,7 @@ void Map::draw_grid(cairo_t *cr) {
     }
     
     // Draw continent numbers
-    cairo_select_font_face(cr, "arial", CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_BOLD);
+    cairo_select_font_face(cr, "helvetica", CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_BOLD);
     cairo_set_font_size (cr, 16.0);
     
     for(int x = 0; x <= 9; x += 1) {
@@ -111,8 +111,10 @@ void Map::draw_background(cairo_t *cr) {
 
 void Map::generate_top_tribes_map(string file, unordered_map<int, Tribe*> *tribe_map,
                        unordered_map<int, Player*> *player_map, unordered_map<int, Village*> *village_map) {
-    cairo_surface_t *surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 1000, 1000);
+    cairo_surface_t *surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 2000, 2000);
     cairo_t *cr = cairo_create (surface);
+    
+    cairo_scale(cr, 2.0, 2.0);
     
     // Draw background
     draw_background(cr);
@@ -120,13 +122,13 @@ void Map::generate_top_tribes_map(string file, unordered_map<int, Tribe*> *tribe
     // Draw villages
     vector<Tribe*> tribes = Utilities::get_top_tribes(10, tribe_map);
     
-    int color;
+    int color = 0;
     
     for(auto t : tribes) {
-        vector<Player*> players = t->get_players();
-        vector<Player*> players_filtered = Utilities::get_local_top_players(10, &players);
+        vector<Player*> players_filtered = t->get_players();
+        //vector<Player*> players_filtered = Utilities::get_local_top_players(10, &players);
         
-        cairo_set_line_width(cr, 2.0);
+        cairo_set_line_width(cr, 1.0);
         
         for(auto p : players_filtered) {
             for(auto v : p->get_villages()) {
@@ -134,14 +136,16 @@ void Map::generate_top_tribes_map(string file, unordered_map<int, Tribe*> *tribe
                 int y = v->get_y();
                 
                 set_palette(color, cr);
-                cairo_rectangle(cr, x-3, y-3, 7, 7);
+                cairo_rectangle(cr, x-1, y-1, 3, 3);
                 cairo_fill(cr);
                 
                 cairo_set_source_rgba(cr, 0.0, 0.0, 0.0, 0.35);
-                cairo_rectangle(cr, x-2, y-2, 5, 5);
+                cairo_rectangle(cr, x-1, y-1, 3, 3);
                 cairo_stroke(cr);
             }
         }        
+        
+        //cout << "Used color: " << color << endl;
         
         color++;
         cairo_fill(cr);
