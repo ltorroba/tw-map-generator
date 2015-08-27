@@ -70,10 +70,10 @@ void Downloader::update_tribe_map(string json, unordered_map<int, Tribe*> *tribe
         Tribe*& ptr = (*tribe_map)[atoi(itr->name.GetString())];
         
         if(ptr == 0) {
-            unsigned long int points = arr[0u].GetUint();
+            unsigned long int points = arr[3].GetUint();
             unsigned long int members = arr[1].GetUint();
             string tag = arr[2].GetString();
-            unsigned long int total_points = arr[3].GetUint();
+            unsigned long int total_points = arr[0u].GetUint();
             unsigned long int points_rank = arr[4].GetUint();
             unsigned long int oda = arr[5].GetUint();
             unsigned long int odd = arr[6].GetUint();

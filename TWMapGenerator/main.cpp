@@ -57,13 +57,15 @@ int main(int argc, const char * argv[]) {
     
     cout << "Beginning asynchronous download..." << endl;
     
+    //for(int i = 64; i <= 64; i++) {
     for(int i = 0; i <= 99; i++) {
-        thread* t = new thread(download_continent_data, i, 70, "en", timestamp, &data);
+        thread* t = new thread(download_continent_data, i, 70, "br", timestamp, &data);
         threads.push_back(t);
     }
     
     cout << "Starting to join threads..." << endl;
     
+    //for(int i = 0; i <= 0; i++) {
     for(int i = 0; i <= 99; i++) {
         // Join continent thread
         threads[i]->join();
@@ -81,7 +83,7 @@ int main(int argc, const char * argv[]) {
     
     cout << "Generating image..." << endl;
     
-    Map::generate_top_tribes_map("/Users/ltorroba/Desktop/top_tribes.png", &tribe_map, &player_map, &village_map, "EN", 70);
+    Map::generate_top_tribes_map("/Users/ltorroba/Desktop/top_tribes.png", &tribe_map, &player_map, &village_map, "BR", 70);
     
     // Destroy libcurl
     curl_global_cleanup();
