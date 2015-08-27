@@ -259,7 +259,7 @@ void Map::draw_sidebar_top_tribes(cairo_t *cr, std::string server, int world, st
     }
 }
 
-void Map::generate_top_tribes_map(string file, unordered_map<int, Tribe*> *tribe_map,
+void Map::generate_top_tribes_map(string filename, unordered_map<int, Tribe*> *tribe_map,
                                   unordered_map<int, Player*> *player_map, unordered_map<int, Village*> *village_map,
                                   string server, int world) {
     cairo_surface_t *surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 2600, 2000);
@@ -308,9 +308,140 @@ void Map::generate_top_tribes_map(string file, unordered_map<int, Tribe*> *tribe
     
     // Flush and destroy
     cairo_destroy (cr);
-    cairo_surface_write_to_png (surface, file.c_str());
+    cairo_surface_write_to_png (surface, filename.c_str());
     cairo_surface_destroy (surface);
 }
 
+void Map::draw_sidebar_top_players(cairo_t *cr, std::string server, int world, std::vector<Player*> players) {
+    draw_sidebar_base(cr, server, world);
+    
+    // Draw title
+    cairo_set_source_rgb(cr, 1.0, 1.0, 1.0);
+    
+    cairo_select_font_face(cr, "helvetica", CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_BOLD);
+    cairo_set_font_size (cr, 64.0);
+    
+    ostringstream ss;
+    ss << "TOP 10 PLAYERS";
+    
+    cairo_move_to(cr, 30.0, 100.0);
+    cairo_show_text(cr, ss.str().c_str());
+    
+    // Draw subtitle
+    cairo_set_source_rgb(cr, 157.0/256.0, 157.0/256.0, 157.0/256.0);
+    cairo_set_font_size (cr, 60.0);
+    
+    ss.str("");
+    ss << server << world;
+    
+    cairo_move_to(cr, 30.0, 160.0);
+    cairo_show_text(cr, ss.str().c_str());
+    
+    // Draw time
+    cairo_set_source_rgb(cr, 200.0/256.0, 200.0/256.0, 200.0/256.0);
+    cairo_set_font_size (cr, 30.0);
+    
+    string time = pretty_date();
+    
+    transform(time.begin(), time.end(), time.begin(), ::toupper);
+    
+    cairo_move_to(cr, 30.0, 200.0);
+    cairo_show_text(cr, time.c_str());
+    
+    // Start drawing stats
+    int color = 0;
+    
+    for(auto p : players) {
+        set_palette(color, cr);
+        
+        double base = 230.0 + 150.0*color;
+        
+        // Tag
+        cairo_set_font_size(cr, 50.0);
+        cairo_move_to(cr, 30.0, base + 50.0);
+        cairo_show_text(cr, p->get_username().c_str());
+        
+        // Points
+        cairo_set_font_size(cr, 30.0);
+        cairo_move_to(cr, 30.0, base + 80.0);
+        
+        ss.str("");
+        ss << pretty_number(p->get_points()).c_str() << " points";
+        
+        cairo_show_text(cr, ss.str().c_str());
+        
+        // Village count
+        cairo_set_font_size(cr, 30.0);
+        cairo_move_to(cr, 30.0, base + 110.0);
+        
+        ss.str("");
+        ss << pretty_number(p->get_num_villages()).c_str() << " villages";
+        
+        cairo_show_text(cr, ss.str().c_str());
+        
+        // Member count
+        cairo_set_font_size(cr, 30.0);
+        cairo_move_to(cr, 30.0, base + 140.0);
+        
+        ss.str("");
+        
+        if(p->get_tribe() != NULL)
+            ss << "Member of " << (p->get_tribe())->get_tag();
+        else
+            ss << "Tribeless";
+        
+        cairo_show_text(cr, ss.str().c_str());
+        
+        color++;
+    }
+}
+
+void Map::generate_top_players_map(std::string filename, std::unordered_map<int, Player*> *player_map, std::unordered_map<int, Village*> *village_map,
+                              std::string server, int world) {
+    cairo_surface_t *surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 2600, 2000);
+    cairo_t *cr = cairo_create (surface);
+    
+    cairo_translate(cr, 600.0, 0.0);
+    cairo_scale(cr, 2.0, 2.0);
+    
+    // Draw background
+    draw_background(cr);
+    
+    // Draw villages
+    vector<Player*> players = Utilities::get_top_players(10, player_map);
+    
+    int color = 0;
+
+    cairo_set_line_width(cr, 1.0);
+    
+    for(auto p : players) {
+        for(auto v : p->get_villages()) {
+            int x = v->get_x();
+            int y = v->get_y();
+            
+            set_palette(color, cr);
+            cairo_rectangle(cr, x-1, y-1, 3, 3);
+            cairo_fill(cr);
+            
+            cairo_set_source_rgba(cr, 0.0, 0.0, 0.0, 0.35);
+            cairo_rectangle(cr, x-1, y-1, 3, 3);
+            cairo_stroke(cr);
+        }
+        
+        color++;
+        cairo_fill(cr);
+    }   
+    
+    // Draw grid
+    draw_grid(cr);
+    
+    // Draw sidebar
+    draw_sidebar_top_players(cr, server, world, players);
+    
+    // Flush and destroy
+    cairo_destroy (cr);
+    cairo_surface_write_to_png (surface, filename.c_str());
+    cairo_surface_destroy (surface);
+}
 
 
