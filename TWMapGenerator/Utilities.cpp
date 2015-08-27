@@ -18,20 +18,6 @@
 
 using namespace std;
 
-vector<Tribe*> Utilities::get_top_tribes(int number, unordered_map<int, Tribe*> *tribe_map) {
-    vector<Tribe*> list(number);
-    
-    for (auto pair : *tribe_map) {
-        unsigned long int rank = (pair.second)->get_points_rank();
-        
-        if(rank <= number) {
-            list[rank-1] = pair.second;
-        }
-    }
-    
-    return list;
-}
-
 struct Local_Tribe {
     Tribe* tribe;
     int points;
@@ -40,6 +26,29 @@ struct Local_Tribe {
         tribe = t;
     }
 };
+
+vector<Tribe*> Utilities::get_top_tribes(int number, unordered_map<int, Tribe*> *tribe_map) {
+    vector<Local_Tribe*> list;
+    
+    for (auto pair : *tribe_map) {
+        unsigned long int rank = (pair.second)->get_points_rank();
+        
+        if(rank <= number) {
+            list.push_back(new Local_Tribe(pair.second));
+            list[list.size() - 1]->points = pair.second->get_points();
+        }
+    }
+    
+    sort(list.begin(), list.end(), is_tribe_better);
+    
+    vector<Tribe*> final;
+    
+    for (auto lt : list) {
+        final.push_back(lt->tribe);
+    }
+    
+    return final;
+}
 
 bool Utilities::is_tribe_better(Local_Tribe *i, Local_Tribe *j) {
      return i->points > j->points;

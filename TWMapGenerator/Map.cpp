@@ -201,7 +201,7 @@ void Map::draw_sidebar_top_tribes(cairo_t *cr, std::string server, int world, st
     ss.str("");
     ss << server << world;
     
-    cairo_move_to(cr, 30.0, 170.0);
+    cairo_move_to(cr, 30.0, 160.0);
     cairo_show_text(cr, ss.str().c_str());
     
     // Draw time
@@ -212,7 +212,7 @@ void Map::draw_sidebar_top_tribes(cairo_t *cr, std::string server, int world, st
     
     transform(time.begin(), time.end(), time.begin(), ::toupper);
     
-    cairo_move_to(cr, 30.0, 210.0);
+    cairo_move_to(cr, 30.0, 200.0);
     cairo_show_text(cr, time.c_str());
     
     // Start drawing stats
