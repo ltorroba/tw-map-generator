@@ -94,10 +94,10 @@ int main(int argc, const char * argv[]) {
     
     cout << "Generating image..." << endl;
     
-    Map::generate_top_tribes_map("/Users/ltorroba/Desktop/top_tribes.png", &tribe_map, &player_map, &village_map, server_upper, world);
-    Map::generate_top_players_map("/Users/ltorroba/Desktop/top_players.png", &player_map, &village_map, server_upper, world);
-    Map::generate_top_oda_map("/Users/ltorroba/Desktop/top_oda.png", &player_map, &village_map, server_upper, world);
-    Map::generate_top_odd_map("/Users/ltorroba/Desktop/top_odd.png", &player_map, &village_map, server_upper, world);
+    Map::generate_top_tribes_map("/Users/ltorroba/Desktop/top_tribes.png", &tribe_map, &player_map, &village_map, server_upper, world, timestamp);
+    Map::generate_top_players_map("/Users/ltorroba/Desktop/top_players.png", &player_map, &village_map, server_upper, world, timestamp);
+    Map::generate_top_oda_map("/Users/ltorroba/Desktop/top_oda.png", &player_map, &village_map, server_upper, world, timestamp);
+    Map::generate_top_odd_map("/Users/ltorroba/Desktop/top_odd.png", &player_map, &village_map, server_upper, world, timestamp);
     
     // Destroy libcurl
     curl_global_cleanup();

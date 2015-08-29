@@ -136,10 +136,16 @@ string Map::pretty_number(unsigned long int n) {
     return pretty;
 }
 
-string Map::pretty_date() {
+string Map::pretty_date() {    
+    auto t = time(nullptr);
+    
+    return pretty_date(t);
+}
+
+string Map::pretty_date(long timestamp) {
     ostringstream ss;
     
-    auto t = time(nullptr);
+    auto t = timestamp;
     auto tm = localtime(&t);
     
     ss << put_time(tm, "%A, %B %e, %Y");
@@ -179,7 +185,7 @@ void Map::draw_sidebar_base(cairo_t *cr, string server, int world) {
     cairo_show_text(cr, ss.str().c_str());
 }
 
-void Map::draw_sidebar_top_tribes(cairo_t *cr, std::string server, int world, std::vector<Tribe*> tribes) {
+void Map::draw_sidebar_top_tribes(cairo_t *cr, std::string server, int world, long timestamp, std::vector<Tribe*> tribes) {
     draw_sidebar_base(cr, server, world);
     
     // Draw title
@@ -208,7 +214,7 @@ void Map::draw_sidebar_top_tribes(cairo_t *cr, std::string server, int world, st
     cairo_set_source_rgb(cr, 200.0/256.0, 200.0/256.0, 200.0/256.0);
     cairo_set_font_size (cr, 30.0);
     
-    string time = pretty_date();
+    string time = pretty_date(timestamp);
     
     transform(time.begin(), time.end(), time.begin(), ::toupper);
     
@@ -261,7 +267,7 @@ void Map::draw_sidebar_top_tribes(cairo_t *cr, std::string server, int world, st
 
 void Map::generate_top_tribes_map(string filename, unordered_map<int, Tribe*> *tribe_map,
                                   unordered_map<int, Player*> *player_map, unordered_map<int, Village*> *village_map,
-                                  string server, int world) {
+                                  string server, int world, long timestamp) {
     cairo_surface_t *surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 2600, 2000);
     cairo_t *cr = cairo_create (surface);
     
@@ -304,7 +310,7 @@ void Map::generate_top_tribes_map(string filename, unordered_map<int, Tribe*> *t
     draw_grid(cr);
     
     // Draw sidebar
-    draw_sidebar_top_tribes(cr, server, world, tribes);
+    draw_sidebar_top_tribes(cr, server, world, timestamp, tribes);
     
     // Flush and destroy
     cairo_destroy (cr);
@@ -312,7 +318,7 @@ void Map::generate_top_tribes_map(string filename, unordered_map<int, Tribe*> *t
     cairo_surface_destroy (surface);
 }
 
-void Map::draw_sidebar_top_players(cairo_t *cr, std::string server, int world, std::vector<Player*> players) {
+void Map::draw_sidebar_top_players(cairo_t *cr, std::string server, int world, long timestamp, std::vector<Player*> players) {
     draw_sidebar_base(cr, server, world);
     
     // Draw title
@@ -341,7 +347,7 @@ void Map::draw_sidebar_top_players(cairo_t *cr, std::string server, int world, s
     cairo_set_source_rgb(cr, 200.0/256.0, 200.0/256.0, 200.0/256.0);
     cairo_set_font_size (cr, 30.0);
     
-    string time = pretty_date();
+    string time = pretty_date(timestamp);
     
     transform(time.begin(), time.end(), time.begin(), ::toupper);
     
@@ -397,7 +403,7 @@ void Map::draw_sidebar_top_players(cairo_t *cr, std::string server, int world, s
 }
 
 void Map::generate_top_players_map(std::string filename, std::unordered_map<int, Player*> *player_map, std::unordered_map<int, Village*> *village_map,
-                              std::string server, int world) {
+                              std::string server, int world, long timestamp) {
     cairo_surface_t *surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 2600, 2000);
     cairo_t *cr = cairo_create (surface);
     
@@ -436,7 +442,7 @@ void Map::generate_top_players_map(std::string filename, std::unordered_map<int,
     draw_grid(cr);
     
     // Draw sidebar
-    draw_sidebar_top_players(cr, server, world, players);
+    draw_sidebar_top_players(cr, server, world, timestamp, players);
     
     // Flush and destroy
     cairo_destroy (cr);
@@ -444,7 +450,7 @@ void Map::generate_top_players_map(std::string filename, std::unordered_map<int,
     cairo_surface_destroy (surface);
 }
 
-void Map::draw_sidebar_top_oda(cairo_t *cr, std::string server, int world, std::vector<Player*> players) {
+void Map::draw_sidebar_top_oda(cairo_t *cr, std::string server, int world, long timestamp, std::vector<Player*> players) {
     draw_sidebar_base(cr, server, world);
     
     // Draw title
@@ -473,7 +479,7 @@ void Map::draw_sidebar_top_oda(cairo_t *cr, std::string server, int world, std::
     cairo_set_source_rgb(cr, 200.0/256.0, 200.0/256.0, 200.0/256.0);
     cairo_set_font_size (cr, 30.0);
     
-    string time = pretty_date();
+    string time = pretty_date(timestamp);
     
     transform(time.begin(), time.end(), time.begin(), ::toupper);
     
@@ -531,7 +537,7 @@ void Map::draw_sidebar_top_oda(cairo_t *cr, std::string server, int world, std::
 }
 
 void Map::generate_top_oda_map(std::string filename, std::unordered_map<int, Player*> *player_map, std::unordered_map<int, Village*> *village_map,
-                                   std::string server, int world) {
+                                   std::string server, int world, long timestamp) {
     cairo_surface_t *surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 2600, 2000);
     cairo_t *cr = cairo_create (surface);
     
@@ -570,7 +576,7 @@ void Map::generate_top_oda_map(std::string filename, std::unordered_map<int, Pla
     draw_grid(cr);
     
     // Draw sidebar
-    draw_sidebar_top_oda(cr, server, world, players);
+    draw_sidebar_top_oda(cr, server, world, timestamp, players);
     
     // Flush and destroy
     cairo_destroy (cr);
@@ -578,7 +584,7 @@ void Map::generate_top_oda_map(std::string filename, std::unordered_map<int, Pla
     cairo_surface_destroy (surface);
 }
 
-void Map::draw_sidebar_top_odd(cairo_t *cr, std::string server, int world, std::vector<Player*> players) {
+void Map::draw_sidebar_top_odd(cairo_t *cr, std::string server, int world, long timestamp, std::vector<Player*> players) {
     draw_sidebar_base(cr, server, world);
     
     // Draw title
@@ -607,7 +613,7 @@ void Map::draw_sidebar_top_odd(cairo_t *cr, std::string server, int world, std::
     cairo_set_source_rgb(cr, 200.0/256.0, 200.0/256.0, 200.0/256.0);
     cairo_set_font_size (cr, 30.0);
     
-    string time = pretty_date();
+    string time = pretty_date(timestamp);
     
     transform(time.begin(), time.end(), time.begin(), ::toupper);
     
@@ -665,7 +671,7 @@ void Map::draw_sidebar_top_odd(cairo_t *cr, std::string server, int world, std::
 }
 
 void Map::generate_top_odd_map(std::string filename, std::unordered_map<int, Player*> *player_map, std::unordered_map<int, Village*> *village_map,
-                               std::string server, int world) {
+                               std::string server, int world, long timestamp) {
     cairo_surface_t *surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 2600, 2000);
     cairo_t *cr = cairo_create (surface);
     
@@ -704,7 +710,7 @@ void Map::generate_top_odd_map(std::string filename, std::unordered_map<int, Pla
     draw_grid(cr);
     
     // Draw sidebar
-    draw_sidebar_top_odd(cr, server, world, players);
+    draw_sidebar_top_odd(cr, server, world, timestamp, players);
     
     // Flush and destroy
     cairo_destroy (cr);
