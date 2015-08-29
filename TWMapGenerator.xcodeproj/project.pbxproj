@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		942745D61B87E69B003570C3 /* Village.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 942745D51B87E69B003570C3 /* Village.cpp */; };
+		944FD3E51B9233E5001A50E8 /* libazurestorage.2.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 944FD3E41B9233E5001A50E8 /* libazurestorage.2.0.dylib */; };
+		944FD3E71B9234A8001A50E8 /* libcpprest.2.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 944FD3E61B9234A8001A50E8 /* libcpprest.2.6.dylib */; };
+		944FD3EA1B923E02001A50E8 /* Uploader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 944FD3E81B923E02001A50E8 /* Uploader.cpp */; };
 		9497C4A81B8365CE0023B69C /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9497C4A71B8365CE0023B69C /* main.cpp */; };
 		9497C4B11B8376620023B69C /* libcurl.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9497C4B01B8376620023B69C /* libcurl.dylib */; };
 		9497C4B61B83D83E0023B69C /* Tribe.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9497C4B51B83D83E0023B69C /* Tribe.cpp */; };
@@ -44,6 +47,10 @@
 
 /* Begin PBXFileReference section */
 		942745D51B87E69B003570C3 /* Village.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Village.cpp; sourceTree = "<group>"; };
+		944FD3E41B9233E5001A50E8 /* libazurestorage.2.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libazurestorage.2.0.dylib; path = "../../Git/azure-storage-cpp/Microsoft.WindowsAzure.Storage/build.release/Binaries/libazurestorage.2.0.dylib"; sourceTree = "<group>"; };
+		944FD3E61B9234A8001A50E8 /* libcpprest.2.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcpprest.2.6.dylib; path = ../../Git/casablanca/Release/build.release/Binaries/libcpprest.2.6.dylib; sourceTree = "<group>"; };
+		944FD3E81B923E02001A50E8 /* Uploader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Uploader.cpp; sourceTree = "<group>"; };
+		944FD3E91B923E02001A50E8 /* Uploader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Uploader.h; sourceTree = "<group>"; };
 		9497C4A41B8365CE0023B69C /* TWMapGenerator */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TWMapGenerator; sourceTree = BUILT_PRODUCTS_DIR; };
 		9497C4A71B8365CE0023B69C /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		9497C4AE1B8368C80023B69C /* rapidjson */ = {isa = PBXFileReference; lastKnownFileType = folder; path = rapidjson; sourceTree = "<group>"; };
@@ -66,6 +73,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				944FD3E71B9234A8001A50E8 /* libcpprest.2.6.dylib in Frameworks */,
+				944FD3E51B9233E5001A50E8 /* libazurestorage.2.0.dylib in Frameworks */,
 				9497C4B11B8376620023B69C /* libcurl.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -76,6 +85,8 @@
 		9497C49B1B8365CE0023B69C = {
 			isa = PBXGroup;
 			children = (
+				944FD3E61B9234A8001A50E8 /* libcpprest.2.6.dylib */,
+				944FD3E41B9233E5001A50E8 /* libazurestorage.2.0.dylib */,
 				9497C4B01B8376620023B69C /* libcurl.dylib */,
 				9497C4A61B8365CE0023B69C /* TWMapGenerator */,
 				9497C4A51B8365CE0023B69C /* Products */,
@@ -107,6 +118,8 @@
 				94C27CFC1B8A87FA003E4F45 /* Utilities.h */,
 				94C27CFE1B8C9A35003E4F45 /* Downloader.cpp */,
 				94C27CFF1B8C9A35003E4F45 /* Downloader.h */,
+				944FD3E81B923E02001A50E8 /* Uploader.cpp */,
+				944FD3E91B923E02001A50E8 /* Uploader.h */,
 			);
 			path = TWMapGenerator;
 			sourceTree = "<group>";
@@ -169,6 +182,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				94C27D001B8C9A35003E4F45 /* Downloader.cpp in Sources */,
+				944FD3EA1B923E02001A50E8 /* Uploader.cpp in Sources */,
 				942745D61B87E69B003570C3 /* Village.cpp in Sources */,
 				94C27CFA1B8A483F003E4F45 /* Map.cpp in Sources */,
 				94C27CFD1B8A87FA003E4F45 /* Utilities.cpp in Sources */,
@@ -270,6 +284,8 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/usr/local/lib,
+					"/Users/ltorroba/Documents/Git/azure-storage-cpp/Microsoft.WindowsAzure.Storage/build.release/Binaries",
+					/Users/ltorroba/Documents/Git/casablanca/Release/build.release/Binaries,
 				);
 				OTHER_CFLAGS = "";
 				OTHER_CPLUSPLUSFLAGS = (
@@ -279,9 +295,10 @@
 				OTHER_LDFLAGS = (
 					"-v",
 					"-lcairo",
+					"-lboost_system",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = "/usr/local/Cellar/cairo/1.14.2_1/include/cairo $(SRCROOT)/**";
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/** /usr/local/Cellar/cairo/1.14.2_1/include/cairo /usr/local/Cellar/boost/1.58.0/include/ ~/Documents/Git/casablanca/Release/include/ ~/Documents/Git/azure-storage-cpp/Microsoft.WindowsAzure.Storage/includes/";
 			};
 			name = Debug;
 		};
@@ -297,6 +314,8 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/usr/local/lib,
+					"/Users/ltorroba/Documents/Git/azure-storage-cpp/Microsoft.WindowsAzure.Storage/build.release/Binaries",
+					/Users/ltorroba/Documents/Git/casablanca/Release/build.release/Binaries,
 				);
 				OTHER_CFLAGS = "";
 				OTHER_CPLUSPLUSFLAGS = (
@@ -306,9 +325,10 @@
 				OTHER_LDFLAGS = (
 					"-v",
 					"-lcairo",
+					"-lboost_system",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = "/usr/local/Cellar/cairo/1.14.2_1/include/cairo $(SRCROOT)/**";
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/** /usr/local/Cellar/cairo/1.14.2_1/include/cairo /usr/local/Cellar/boost/1.58.0/include/ ~/Documents/Git/casablanca/Release/include/ ~/Documents/Git/azure-storage-cpp/Microsoft.WindowsAzure.Storage/includes/";
 			};
 			name = Release;
 		};

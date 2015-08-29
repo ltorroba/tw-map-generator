@@ -40,6 +40,11 @@ void download_continent_data(unsigned long continent, unsigned long world, strin
 }
 
 int main(int argc, const char * argv[]) {
+    // TODO: Use getopt to get this, world, etc.
+    string key = argv[1];
+    
+    cout << "Azure access key: " << key << endl;
+    
     // Initialize libcurl
     curl_global_init(CURL_GLOBAL_ALL);
     
@@ -61,7 +66,7 @@ int main(int argc, const char * argv[]) {
     string server = "br";
     
     string server_upper = server;
-    
+    transform(server_upper.begin(), server_upper.end(), server_upper.begin(), ::toupper);
     
     cout << "Beginning asynchronous download..." << endl;
     
@@ -89,10 +94,10 @@ int main(int argc, const char * argv[]) {
     
     cout << "Generating image..." << endl;
     
-    Map::generate_top_tribes_map("/Users/ltorroba/Desktop/top_tribes.png", &tribe_map, &player_map, &village_map, "BR", 70);
-    Map::generate_top_players_map("/Users/ltorroba/Desktop/top_players.png", &player_map, &village_map, "BR", 70);
-    Map::generate_top_oda_map("/Users/ltorroba/Desktop/top_oda.png", &player_map, &village_map, "BR", 70);
-    Map::generate_top_odd_map("/Users/ltorroba/Desktop/top_odd.png", &player_map, &village_map, "BR", 70);
+    Map::generate_top_tribes_map("/Users/ltorroba/Desktop/top_tribes.png", &tribe_map, &player_map, &village_map, server_upper, world);
+    Map::generate_top_players_map("/Users/ltorroba/Desktop/top_players.png", &player_map, &village_map, server_upper, world);
+    Map::generate_top_oda_map("/Users/ltorroba/Desktop/top_oda.png", &player_map, &village_map, server_upper, world);
+    Map::generate_top_odd_map("/Users/ltorroba/Desktop/top_odd.png", &player_map, &village_map, server_upper, world);
     
     // Destroy libcurl
     curl_global_cleanup();
