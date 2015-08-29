@@ -217,6 +217,34 @@ vector<Player*> Utilities::get_top_players(int number, unordered_map<int, Player
     return map;
 }
 
+vector<Player*> Utilities::get_top_players_oda(int number, unordered_map<int, Player*> *player_map) {
+    vector<Player*> map(number);
+    
+    for (auto pair : *player_map) {
+        unsigned long int rank = (pair.second)->get_oda_rank();
+        
+        if(rank <= number) {
+            map[rank-1] = pair.second;
+        }
+    }
+    
+    return map;
+}
+
+vector<Player*> Utilities::get_top_players_odd(int number, unordered_map<int, Player*> *player_map) {
+    vector<Player*> map(number);
+    
+    for (auto pair : *player_map) {
+        unsigned long int rank = (pair.second)->get_odd_rank();
+        
+        if(rank <= number) {
+            map[rank-1] = pair.second;
+        }
+    }
+    
+    return map;
+}
+
 vector<Village*> Utilities::get_tribe_villages(int id, unordered_map<int, Tribe*> *tribe_map) {
     Tribe* tribe = (*tribe_map)[id];
     vector<Village*> villages;

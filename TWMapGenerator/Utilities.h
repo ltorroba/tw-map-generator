@@ -27,6 +27,9 @@ class Utilities {
 public:
     static std::vector<Tribe*> get_top_tribes(int number, std::unordered_map<int, Tribe*> *tribe_map);
     static std::vector<Player*> get_top_players(int number, std::unordered_map<int, Player*> *player_map);
+    static std::vector<Player*> get_top_players_oda(int number, std::unordered_map<int, Player*> *player_map);
+    static std::vector<Player*> get_top_players_odd(int number, std::unordered_map<int, Player*> *player_map);
+    
     static std::vector<Village*> get_tribe_villages(int id, std::unordered_map<int, Tribe*> *tribe_map);
     
     static std::vector<Tribe*> get_local_top_tribes(int number, std::unordered_map<int, Tribe*> *tribe_map);
