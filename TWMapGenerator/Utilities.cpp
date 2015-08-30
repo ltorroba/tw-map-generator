@@ -209,7 +209,7 @@ vector<Player*> Utilities::get_top_players(int number, unordered_map<int, Player
     for (auto pair : *player_map) {
         unsigned long int rank = (pair.second)->get_points_rank();
         
-        if(rank <= number) {
+        if(rank > 0 && rank <= number) {
             map[rank-1] = pair.second;
         }
     }
@@ -223,7 +223,7 @@ vector<Player*> Utilities::get_top_players_oda(int number, unordered_map<int, Pl
     for (auto pair : *player_map) {
         unsigned long int rank = (pair.second)->get_oda_rank();
         
-        if(rank <= number) {
+        if(rank > 0 && rank <= number) {
             map[rank-1] = pair.second;
         }
     }
@@ -237,7 +237,7 @@ vector<Player*> Utilities::get_top_players_odd(int number, unordered_map<int, Pl
     for (auto pair : *player_map) {
         unsigned long int rank = (pair.second)->get_odd_rank();
         
-        if(rank <= number) {
+        if(rank > 0 && rank <= number) {
             map[rank-1] = pair.second;
         }
     }
