@@ -20,6 +20,7 @@
 #include "Village.h"
 #include "Map.h"
 #include "Downloader.h"
+#include "Uploader.h"
 
 using namespace std;
 
@@ -41,8 +42,10 @@ void download_continent_data(unsigned long continent, unsigned long world, strin
 
 int main(int argc, const char * argv[]) {
     // TODO: Use getopt to get this, world, etc.
-    string key = argv[1];
+    string account = argv[1];
+    string key = argv[2];
     
+    cout << "Azure account: " << account << endl;
     cout << "Azure access key: " << key << endl;
     
     // Initialize libcurl
@@ -80,6 +83,7 @@ int main(int argc, const char * argv[]) {
     for(int i = 0; i <= 99; i++) {
         // Join continent thread
         threads[i]->join();
+        //delete threads[i];
         
         // Process downloaded data
         Downloader::update_tribe_map(data[i].json, &tribe_map);
@@ -92,12 +96,14 @@ int main(int argc, const char * argv[]) {
         cout << "Village map size: " << village_map.size() << endl;
     }
     
-    cout << "Generating image..." << endl;
+    cout << "Generating images..." << endl;
     
     Map::generate_top_tribes_map("/Users/ltorroba/Desktop/top_tribes.png", &tribe_map, &player_map, &village_map, server_upper, world, timestamp);
     Map::generate_top_players_map("/Users/ltorroba/Desktop/top_players.png", &player_map, &village_map, server_upper, world, timestamp);
     Map::generate_top_oda_map("/Users/ltorroba/Desktop/top_oda.png", &player_map, &village_map, server_upper, world, timestamp);
     Map::generate_top_odd_map("/Users/ltorroba/Desktop/top_odd.png", &player_map, &village_map, server_upper, world, timestamp);
+
+    //Uploader::azure_upload("/Users/ltorroba/Desktop/top_tribes.png", "top_tribes.png", server, world, timestamp, account, key);
     
     // Destroy libcurl
     curl_global_cleanup();

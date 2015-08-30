@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		942745D61B87E69B003570C3 /* Village.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 942745D51B87E69B003570C3 /* Village.cpp */; };
-		944FD3E51B9233E5001A50E8 /* libazurestorage.2.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 944FD3E41B9233E5001A50E8 /* libazurestorage.2.0.dylib */; };
-		944FD3E71B9234A8001A50E8 /* libcpprest.2.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 944FD3E61B9234A8001A50E8 /* libcpprest.2.6.dylib */; };
 		944FD3EA1B923E02001A50E8 /* Uploader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 944FD3E81B923E02001A50E8 /* Uploader.cpp */; };
 		9497C4A81B8365CE0023B69C /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9497C4A71B8365CE0023B69C /* main.cpp */; };
 		9497C4B11B8376620023B69C /* libcurl.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9497C4B01B8376620023B69C /* libcurl.dylib */; };
@@ -47,8 +45,6 @@
 
 /* Begin PBXFileReference section */
 		942745D51B87E69B003570C3 /* Village.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Village.cpp; sourceTree = "<group>"; };
-		944FD3E41B9233E5001A50E8 /* libazurestorage.2.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libazurestorage.2.0.dylib; path = "../../Git/azure-storage-cpp/Microsoft.WindowsAzure.Storage/build.release/Binaries/libazurestorage.2.0.dylib"; sourceTree = "<group>"; };
-		944FD3E61B9234A8001A50E8 /* libcpprest.2.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcpprest.2.6.dylib; path = ../../Git/casablanca/Release/build.release/Binaries/libcpprest.2.6.dylib; sourceTree = "<group>"; };
 		944FD3E81B923E02001A50E8 /* Uploader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Uploader.cpp; sourceTree = "<group>"; };
 		944FD3E91B923E02001A50E8 /* Uploader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Uploader.h; sourceTree = "<group>"; };
 		9497C4A41B8365CE0023B69C /* TWMapGenerator */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TWMapGenerator; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -73,8 +69,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				944FD3E71B9234A8001A50E8 /* libcpprest.2.6.dylib in Frameworks */,
-				944FD3E51B9233E5001A50E8 /* libazurestorage.2.0.dylib in Frameworks */,
 				9497C4B11B8376620023B69C /* libcurl.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -85,8 +79,6 @@
 		9497C49B1B8365CE0023B69C = {
 			isa = PBXGroup;
 			children = (
-				944FD3E61B9234A8001A50E8 /* libcpprest.2.6.dylib */,
-				944FD3E41B9233E5001A50E8 /* libazurestorage.2.0.dylib */,
 				9497C4B01B8376620023B69C /* libcurl.dylib */,
 				9497C4A61B8365CE0023B69C /* TWMapGenerator */,
 				9497C4A51B8365CE0023B69C /* Products */,
@@ -286,6 +278,7 @@
 					/usr/local/lib,
 					"/Users/ltorroba/Documents/Git/azure-storage-cpp/Microsoft.WindowsAzure.Storage/build.release/Binaries",
 					/Users/ltorroba/Documents/Git/casablanca/Release/build.release/Binaries,
+					/usr/local/Cellar/boost/1.58.0/lib,
 				);
 				OTHER_CFLAGS = "";
 				OTHER_CPLUSPLUSFLAGS = (
@@ -316,6 +309,7 @@
 					/usr/local/lib,
 					"/Users/ltorroba/Documents/Git/azure-storage-cpp/Microsoft.WindowsAzure.Storage/build.release/Binaries",
 					/Users/ltorroba/Documents/Git/casablanca/Release/build.release/Binaries,
+					/usr/local/Cellar/boost/1.58.0/lib,
 				);
 				OTHER_CFLAGS = "";
 				OTHER_CPLUSPLUSFLAGS = (
