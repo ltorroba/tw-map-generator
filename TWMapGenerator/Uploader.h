@@ -11,12 +11,11 @@
 
 #include <stdio.h>
 
-class Uploader {
-    static std::string azure_parse_connection_string (std::string account, std::string key);
-    static std::string azure_parse_container_name (std::string server, int world);
-    static std::string azure_parse_blob_path (std::string name, long timestamp);
+class Uploader {    
+    static std::string aws_parse_container_name (std::string server, int world);
+    static std::string aws_parse_object_path (std::string name, long timestamp);
 public:
-    static void azure_upload(std::string path, std::string name, std::string server, int world, unsigned long timestamp, std::string account, std::string key);
+    static void aws_upload(std::string path, std::string name, std::string server, int world, unsigned long timestamp, std::string account, std::string key);
 };
 
 #endif /* defined(__TWMapGenerator__Uploader__) */

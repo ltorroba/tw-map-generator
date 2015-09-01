@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		940D940F1B95450F00E16DFE /* libs3.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 940D940E1B95450F00E16DFE /* libs3.2.dylib */; };
 		942745D61B87E69B003570C3 /* Village.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 942745D51B87E69B003570C3 /* Village.cpp */; };
 		944FD3EA1B923E02001A50E8 /* Uploader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 944FD3E81B923E02001A50E8 /* Uploader.cpp */; };
 		9497C4A81B8365CE0023B69C /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9497C4A71B8365CE0023B69C /* main.cpp */; };
@@ -44,6 +45,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		940D940E1B95450F00E16DFE /* libs3.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libs3.2.dylib; path = ../../Git/libs3/build/lib/libs3.2.dylib; sourceTree = "<group>"; };
 		942745D51B87E69B003570C3 /* Village.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Village.cpp; sourceTree = "<group>"; };
 		944FD3E81B923E02001A50E8 /* Uploader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Uploader.cpp; sourceTree = "<group>"; };
 		944FD3E91B923E02001A50E8 /* Uploader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Uploader.h; sourceTree = "<group>"; };
@@ -69,6 +71,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				940D940F1B95450F00E16DFE /* libs3.2.dylib in Frameworks */,
 				9497C4B11B8376620023B69C /* libcurl.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -79,6 +82,7 @@
 		9497C49B1B8365CE0023B69C = {
 			isa = PBXGroup;
 			children = (
+				940D940E1B95450F00E16DFE /* libs3.2.dylib */,
 				9497C4B01B8376620023B69C /* libcurl.dylib */,
 				9497C4A61B8365CE0023B69C /* TWMapGenerator */,
 				9497C4A51B8365CE0023B69C /* Products */,
@@ -274,6 +278,7 @@
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = (
+					/Users/ltorroba/Documents/Git/libs3/build/lib,
 					"$(inherited)",
 					/usr/local/lib,
 					"/Users/ltorroba/Documents/Git/azure-storage-cpp/Microsoft.WindowsAzure.Storage/build.release/Binaries",
@@ -291,7 +296,7 @@
 					"-lboost_system",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/** /usr/local/Cellar/cairo/1.14.2_1/include/cairo /usr/local/Cellar/boost/1.58.0/include/ ~/Documents/Git/casablanca/Release/include/ ~/Documents/Git/azure-storage-cpp/Microsoft.WindowsAzure.Storage/includes/";
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/** /usr/local/Cellar/cairo/1.14.2_1/include/cairo /usr/local/Cellar/boost/1.58.0/include/ ~/Documents/Git/libs3/build/include/";
 			};
 			name = Debug;
 		};
@@ -305,6 +310,7 @@
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = (
+					/Users/ltorroba/Documents/Git/libs3/build/lib,
 					"$(inherited)",
 					/usr/local/lib,
 					"/Users/ltorroba/Documents/Git/azure-storage-cpp/Microsoft.WindowsAzure.Storage/build.release/Binaries",
@@ -322,7 +328,7 @@
 					"-lboost_system",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/** /usr/local/Cellar/cairo/1.14.2_1/include/cairo /usr/local/Cellar/boost/1.58.0/include/ ~/Documents/Git/casablanca/Release/include/ ~/Documents/Git/azure-storage-cpp/Microsoft.WindowsAzure.Storage/includes/";
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/** /usr/local/Cellar/cairo/1.14.2_1/include/cairo /usr/local/Cellar/boost/1.58.0/include/ ~/Documents/Git/libs3/build/include/";
 			};
 			name = Release;
 		};

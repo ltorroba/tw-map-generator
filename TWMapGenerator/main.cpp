@@ -103,7 +103,7 @@ int main(int argc, const char * argv[]) {
     Map::generate_top_oda_map("/Users/ltorroba/Desktop/top_oda.png", &player_map, &village_map, server_upper, world, timestamp);
     Map::generate_top_odd_map("/Users/ltorroba/Desktop/top_odd.png", &player_map, &village_map, server_upper, world, timestamp);
 
-    //Uploader::azure_upload("/Users/ltorroba/Desktop/top_tribes.png", "top_tribes.png", server, world, timestamp, account, key);
+    Uploader::aws_upload("/Users/ltorroba/Desktop/top_tribes.png", "top_tribes.png", server, world, timestamp, account, key);
     
     // Destroy libcurl
     curl_global_cleanup();

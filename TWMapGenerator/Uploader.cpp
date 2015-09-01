@@ -10,19 +10,13 @@
 #include <ctime>
 #include <iomanip>
 #include <sstream>
+#include "libs3.h"
 
 #include "Uploader.h"
 
 using namespace std;
 
-string Uploader::azure_parse_connection_string (string account, string key) {
-    ostringstream connection_string;
-    connection_string << "DefaultEndpointsProtocol=https;AccountName=" << account << ";AccountKey=" << key << ";";
-    
-    return connection_string.str();
-}
-
-string Uploader::azure_parse_container_name (string server, int world) {
+string Uploader::aws_parse_container_name (string server, int world) {
     ostringstream container_name;
     
     // Go lowercase - container names cannot be uppercase
@@ -34,7 +28,7 @@ string Uploader::azure_parse_container_name (string server, int world) {
     return container_name.str();
 }
 
-string Uploader::azure_parse_blob_path(string name, long timestamp) {
+string Uploader::aws_parse_object_path(string name, long timestamp) {
     auto t = timestamp;
     auto tm = localtime(&t);
     
@@ -44,8 +38,8 @@ string Uploader::azure_parse_blob_path(string name, long timestamp) {
     return blob_path.str();
 }
 
-void Uploader::azure_upload(string path, string name, string server, int world, unsigned long timestamp, string account, string key) {
-    throw "Not implemented yet.";
+void Uploader::aws_upload(string path, string name, string server, int world, unsigned long timestamp, string account, string key) {
+    S3_initialize("s3", S3_INIT_ALL, "HOST");
     
     cout << "Beginning upload of " << path << endl;
     
@@ -55,9 +49,11 @@ void Uploader::azure_upload(string path, string name, string server, int world, 
     
     // If container does not exist, create it and make it blob-public
     
-    cout << "Uploading to: " << azure_parse_blob_path(name, timestamp) << endl;
+    cout << "Uploading to: " << aws_parse_object_path(name, timestamp) << endl;
     
     // Upload file
+    
+    S3_deinitialize();
     
     cout << "Finished upload." << endl;
 }
