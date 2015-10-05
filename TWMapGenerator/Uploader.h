@@ -10,12 +10,31 @@
 #define __TWMapGenerator__Uploader__
 
 #include <stdio.h>
+#include <string>
+#include <iostream>
+#include <vector>
 
-class Uploader {    
-    static std::string aws_parse_container_name (std::string server, int world);
-    static std::string aws_parse_object_path (std::string name, long timestamp);
+struct File {
+    char *data;
+    size_t length;
+};
+
+class Uploader {
+    const char* AWS_ACCESS_KEY;
+    const char* AWS_SECRET_KEY;
+    
+    std::string aws_parse_bucket_name (std::string server, int world);
+    std::string aws_parse_object_path (std::string name, long timestamp);    
+    static size_t read_callback(void *ptr, size_t size, size_t nmemb, void *stream);
 public:
-    static void aws_upload(std::string path, std::string name, std::string server, int world, unsigned long timestamp, std::string account, std::string key);
+    void compute_hmac(const std::string data, const unsigned char key[32], unsigned char result[32]);
+    void compute_hmac(const std::string data, const std::string key, unsigned char result[32]);
+    std::string hex_encode(const unsigned char data[32]);
+    void compute_sha256(const std::vector<char> data, char result[65]);
+    void compute_sha256(const std::string data, char result[65]);
+    Uploader(const char* aws_access_key, const char* aws_secret_key);
+    ~Uploader();
+    void aws_upload(std::vector<char> data, std::string name, std::string server, int world, unsigned long timestamp);
 };
 
 #endif /* defined(__TWMapGenerator__Uploader__) */

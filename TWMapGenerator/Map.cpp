@@ -39,6 +39,28 @@ struct RGB {
     }
 };
 
+typedef struct {
+    vector<char> *output;
+} png_stream_to_byte_array_closure_t;
+
+cairo_status_t Map::write_png_stream_to_byte_array (void *in_closure, const unsigned char *data, unsigned int length) {
+    png_stream_to_byte_array_closure_t *closure =
+    (png_stream_to_byte_array_closure_t *) in_closure;
+    
+    /*if ((closure->current_position + length) > (closure->end_of_array))
+        return CAIRO_STATUS_WRITE_ERROR;
+    
+    memcpy (closure->current_position, data, length);
+    closure->current_position += length;*/
+    
+    for(int i = 0; i < length; i++)
+        closure->output->push_back(data[i]);
+    
+    
+    
+    return CAIRO_STATUS_SUCCESS;
+}
+
 vector<RGB> Map::get_palette() {
     vector<RGB> palette;
     
@@ -265,9 +287,11 @@ void Map::draw_sidebar_top_tribes(cairo_t *cr, std::string server, int world, lo
     }
 }
 
-void Map::generate_top_tribes_map(string filename, unordered_map<int, Tribe*> *tribe_map,
+vector<char> Map::generate_top_tribes_map(string filename, unordered_map<int, Tribe*> *tribe_map,
                                   unordered_map<int, Player*> *player_map, unordered_map<int, Village*> *village_map,
                                   string server, int world, long timestamp) {
+    cout << "Generating top tribes map..." << endl;
+    
     cairo_surface_t *surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 2600, 2000);
     cairo_t *cr = cairo_create (surface);
     
@@ -312,10 +336,23 @@ void Map::generate_top_tribes_map(string filename, unordered_map<int, Tribe*> *t
     // Draw sidebar
     draw_sidebar_top_tribes(cr, server, world, timestamp, tribes);
     
-    // Flush and destroy
+    // Destroy transform
     cairo_destroy (cr);
-    cairo_surface_write_to_png (surface, filename.c_str());
+    
+    // Flush to vector
+    //cairo_surface_write_to_png (surface, filename.c_str());
+    vector<char> bytes;
+    
+    png_stream_to_byte_array_closure_t closure;
+    closure.output = &bytes;
+    
+    //cairo_surface_write_to_png (surface, filename.c_str());
+    cairo_surface_write_to_png_stream (surface, write_png_stream_to_byte_array, &closure);
+    
+    // Destroy surface
     cairo_surface_destroy (surface);
+    
+    return bytes;
 }
 
 void Map::draw_sidebar_top_players(cairo_t *cr, std::string server, int world, long timestamp, std::vector<Player*> players) {
@@ -402,8 +439,10 @@ void Map::draw_sidebar_top_players(cairo_t *cr, std::string server, int world, l
     }
 }
 
-void Map::generate_top_players_map(std::string filename, std::unordered_map<int, Player*> *player_map, std::unordered_map<int, Village*> *village_map,
+std::vector<char> Map::generate_top_players_map(std::string filename, std::unordered_map<int, Player*> *player_map, std::unordered_map<int, Village*> *village_map,
                               std::string server, int world, long timestamp) {
+    cout << "Generating top players map..." << endl;
+    
     cairo_surface_t *surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 2600, 2000);
     cairo_t *cr = cairo_create (surface);
     
@@ -444,10 +483,23 @@ void Map::generate_top_players_map(std::string filename, std::unordered_map<int,
     // Draw sidebar
     draw_sidebar_top_players(cr, server, world, timestamp, players);
     
-    // Flush and destroy
+    // Destroy transform
     cairo_destroy (cr);
-    cairo_surface_write_to_png (surface, filename.c_str());
+    
+    // Flush to vector
+    //cairo_surface_write_to_png (surface, filename.c_str());
+    vector<char> bytes;
+    
+    png_stream_to_byte_array_closure_t closure;
+    closure.output = &bytes;
+    
+    //cairo_surface_write_to_png (surface, filename.c_str());
+    cairo_surface_write_to_png_stream (surface, write_png_stream_to_byte_array, &closure);
+    
+    // Destroy surface
     cairo_surface_destroy (surface);
+    
+    return bytes;
 }
 
 void Map::draw_sidebar_top_oda(cairo_t *cr, std::string server, int world, long timestamp, std::vector<Player*> players) {
@@ -536,8 +588,10 @@ void Map::draw_sidebar_top_oda(cairo_t *cr, std::string server, int world, long 
     }
 }
 
-void Map::generate_top_oda_map(std::string filename, std::unordered_map<int, Player*> *player_map, std::unordered_map<int, Village*> *village_map,
+std::vector<char> Map::generate_top_oda_map(std::string filename, std::unordered_map<int, Player*> *player_map, std::unordered_map<int, Village*> *village_map,
                                    std::string server, int world, long timestamp) {
+    cout << "Generate top ODA map..." << endl;
+    
     cairo_surface_t *surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 2600, 2000);
     cairo_t *cr = cairo_create (surface);
     
@@ -555,21 +609,23 @@ void Map::generate_top_oda_map(std::string filename, std::unordered_map<int, Pla
     cairo_set_line_width(cr, 1.0);
     
     for(auto p : players) {
-        for(auto v : p->get_villages()) {
-            int x = v->get_x();
-            int y = v->get_y();
+        if(p != NULL) {
+            for(auto v : p->get_villages()) {
+                int x = v->get_x();
+                int y = v->get_y();
+                
+                set_palette(color, cr);
+                cairo_rectangle(cr, x-1, y-1, 3, 3);
+                cairo_fill(cr);
+                
+                cairo_set_source_rgba(cr, 0.0, 0.0, 0.0, 0.35);
+                cairo_rectangle(cr, x-1, y-1, 3, 3);
+                cairo_stroke(cr);
+            }
             
-            set_palette(color, cr);
-            cairo_rectangle(cr, x-1, y-1, 3, 3);
+            color++;
             cairo_fill(cr);
-            
-            cairo_set_source_rgba(cr, 0.0, 0.0, 0.0, 0.35);
-            cairo_rectangle(cr, x-1, y-1, 3, 3);
-            cairo_stroke(cr);
         }
-        
-        color++;
-        cairo_fill(cr);
     }
     
     // Draw grid
@@ -578,10 +634,23 @@ void Map::generate_top_oda_map(std::string filename, std::unordered_map<int, Pla
     // Draw sidebar
     draw_sidebar_top_oda(cr, server, world, timestamp, players);
     
-    // Flush and destroy
+    // Destroy transform
     cairo_destroy (cr);
-    cairo_surface_write_to_png (surface, filename.c_str());
+    
+    // Flush to vector
+    //cairo_surface_write_to_png (surface, filename.c_str());
+    vector<char> bytes;
+    
+    png_stream_to_byte_array_closure_t closure;
+    closure.output = &bytes;
+    
+    //cairo_surface_write_to_png (surface, filename.c_str());
+    cairo_surface_write_to_png_stream (surface, write_png_stream_to_byte_array, &closure);
+    
+    // Destroy surface
     cairo_surface_destroy (surface);
+    
+    return bytes;
 }
 
 void Map::draw_sidebar_top_odd(cairo_t *cr, std::string server, int world, long timestamp, std::vector<Player*> players) {
@@ -670,8 +739,10 @@ void Map::draw_sidebar_top_odd(cairo_t *cr, std::string server, int world, long 
     }
 }
 
-void Map::generate_top_odd_map(std::string filename, std::unordered_map<int, Player*> *player_map, std::unordered_map<int, Village*> *village_map,
+std::vector<char> Map::generate_top_odd_map(std::string filename, std::unordered_map<int, Player*> *player_map, std::unordered_map<int, Village*> *village_map,
                                std::string server, int world, long timestamp) {
+    cout << "Generate top ODD map..." << endl;
+    
     cairo_surface_t *surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 2600, 2000);
     cairo_t *cr = cairo_create (surface);
     
@@ -712,9 +783,22 @@ void Map::generate_top_odd_map(std::string filename, std::unordered_map<int, Pla
     // Draw sidebar
     draw_sidebar_top_odd(cr, server, world, timestamp, players);
     
-    // Flush and destroy
+    // Destroy transform
     cairo_destroy (cr);
-    cairo_surface_write_to_png (surface, filename.c_str());
+    
+    // Flush to vector
+    //cairo_surface_write_to_png (surface, filename.c_str());
+    vector<char> bytes;
+    
+    png_stream_to_byte_array_closure_t closure;
+    closure.output = &bytes;
+    
+    //cairo_surface_write_to_png (surface, filename.c_str());
+    cairo_surface_write_to_png_stream (surface, write_png_stream_to_byte_array, &closure);
+    
+    // Destroy surface
     cairo_surface_destroy (surface);
+    
+    return bytes;
 }
 

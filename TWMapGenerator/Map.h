@@ -21,16 +21,17 @@ class Tribe;
 
 struct RGB;
 
-class Map {    
+class Map {
+    static cairo_status_t write_png_stream_to_byte_array (void *in_closure, const unsigned char *data, unsigned int length);
 public:
-    static void generate_top_tribes_map(std::string filename, std::unordered_map<int, Tribe*> *tribe_map,
+    static std::vector<char> generate_top_tribes_map(std::string filename, std::unordered_map<int, Tribe*> *tribe_map,
                                         std::unordered_map<int, Player*> *player_map, std::unordered_map<int, Village*> *village_map, std::string server, int world,
                                         long timestamp);
-    static void generate_top_players_map(std::string filename, std::unordered_map<int, Player*> *player_map,
+    static std::vector<char> generate_top_players_map(std::string filename, std::unordered_map<int, Player*> *player_map,
                                          std::unordered_map<int, Village*> *village_map, std::string server, int world, long timestamp);
-    static void generate_top_oda_map(std::string filename, std::unordered_map<int, Player*> *player_map, std::unordered_map<int, Village*> *village_map,
+    static std::vector<char> generate_top_oda_map(std::string filename, std::unordered_map<int, Player*> *player_map, std::unordered_map<int, Village*> *village_map,
                                      std::string server, int world, long timestamp);
-    static void generate_top_odd_map(std::string filename, std::unordered_map<int, Player*> *player_map, std::unordered_map<int, Village*> *village_map,
+    static std::vector<char> generate_top_odd_map(std::string filename, std::unordered_map<int, Player*> *player_map, std::unordered_map<int, Village*> *village_map,
                                      std::string server, int world, long timestamp);
     
     static void draw_background(cairo_t *cr);

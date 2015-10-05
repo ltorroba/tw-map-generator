@@ -7,9 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		940D940F1B95450F00E16DFE /* libs3.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 940D940E1B95450F00E16DFE /* libs3.2.dylib */; };
 		942745D61B87E69B003570C3 /* Village.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 942745D51B87E69B003570C3 /* Village.cpp */; };
-		944FD3EA1B923E02001A50E8 /* Uploader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 944FD3E81B923E02001A50E8 /* Uploader.cpp */; };
 		9497C4A81B8365CE0023B69C /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9497C4A71B8365CE0023B69C /* main.cpp */; };
 		9497C4B11B8376620023B69C /* libcurl.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9497C4B01B8376620023B69C /* libcurl.dylib */; };
 		9497C4B61B83D83E0023B69C /* Tribe.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9497C4B51B83D83E0023B69C /* Tribe.cpp */; };
@@ -17,6 +15,9 @@
 		94C27CFA1B8A483F003E4F45 /* Map.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94C27CF81B8A483F003E4F45 /* Map.cpp */; };
 		94C27CFD1B8A87FA003E4F45 /* Utilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94C27CFB1B8A87FA003E4F45 /* Utilities.cpp */; };
 		94C27D001B8C9A35003E4F45 /* Downloader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94C27CFE1B8C9A35003E4F45 /* Downloader.cpp */; };
+		94C885471BB2FCDE00E8E2E3 /* Uploader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94C885451BB2FCDE00E8E2E3 /* Uploader.cpp */; settings = {ASSET_TAGS = (); }; };
+		94C885521BB33E8100E8E2E3 /* libcrypto.1.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 94C885501BB33E8100E8E2E3 /* libcrypto.1.0.0.dylib */; };
+		94C885531BB33E8100E8E2E3 /* libssl.1.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 94C885511BB33E8100E8E2E3 /* libssl.1.0.0.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -45,9 +46,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		940D940E1B95450F00E16DFE /* libs3.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libs3.2.dylib; path = ../../Git/libs3/build/lib/libs3.2.dylib; sourceTree = "<group>"; };
 		942745D51B87E69B003570C3 /* Village.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Village.cpp; sourceTree = "<group>"; };
-		944FD3E81B923E02001A50E8 /* Uploader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Uploader.cpp; sourceTree = "<group>"; };
 		944FD3E91B923E02001A50E8 /* Uploader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Uploader.h; sourceTree = "<group>"; };
 		9497C4A41B8365CE0023B69C /* TWMapGenerator */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TWMapGenerator; sourceTree = BUILT_PRODUCTS_DIR; };
 		9497C4A71B8365CE0023B69C /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
@@ -64,6 +63,9 @@
 		94C27CFC1B8A87FA003E4F45 /* Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utilities.h; sourceTree = "<group>"; };
 		94C27CFE1B8C9A35003E4F45 /* Downloader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Downloader.cpp; sourceTree = "<group>"; };
 		94C27CFF1B8C9A35003E4F45 /* Downloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Downloader.h; sourceTree = "<group>"; };
+		94C885451BB2FCDE00E8E2E3 /* Uploader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Uploader.cpp; sourceTree = "<group>"; };
+		94C885501BB33E8100E8E2E3 /* libcrypto.1.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.1.0.0.dylib; path = ../../../../../usr/local/Cellar/openssl/1.0.2d_1/lib/libcrypto.1.0.0.dylib; sourceTree = "<group>"; };
+		94C885511BB33E8100E8E2E3 /* libssl.1.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libssl.1.0.0.dylib; path = ../../../../../usr/local/Cellar/openssl/1.0.2d_1/lib/libssl.1.0.0.dylib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,7 +73,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				940D940F1B95450F00E16DFE /* libs3.2.dylib in Frameworks */,
+				94C885521BB33E8100E8E2E3 /* libcrypto.1.0.0.dylib in Frameworks */,
+				94C885531BB33E8100E8E2E3 /* libssl.1.0.0.dylib in Frameworks */,
 				9497C4B11B8376620023B69C /* libcurl.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -82,7 +85,8 @@
 		9497C49B1B8365CE0023B69C = {
 			isa = PBXGroup;
 			children = (
-				940D940E1B95450F00E16DFE /* libs3.2.dylib */,
+				94C885501BB33E8100E8E2E3 /* libcrypto.1.0.0.dylib */,
+				94C885511BB33E8100E8E2E3 /* libssl.1.0.0.dylib */,
 				9497C4B01B8376620023B69C /* libcurl.dylib */,
 				9497C4A61B8365CE0023B69C /* TWMapGenerator */,
 				9497C4A51B8365CE0023B69C /* Products */,
@@ -114,8 +118,8 @@
 				94C27CFC1B8A87FA003E4F45 /* Utilities.h */,
 				94C27CFE1B8C9A35003E4F45 /* Downloader.cpp */,
 				94C27CFF1B8C9A35003E4F45 /* Downloader.h */,
-				944FD3E81B923E02001A50E8 /* Uploader.cpp */,
 				944FD3E91B923E02001A50E8 /* Uploader.h */,
+				94C885451BB2FCDE00E8E2E3 /* Uploader.cpp */,
 			);
 			path = TWMapGenerator;
 			sourceTree = "<group>";
@@ -147,7 +151,7 @@
 		9497C49C1B8365CE0023B69C /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0640;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Lucas Torroba";
 				TargetAttributes = {
 					9497C4A31B8365CE0023B69C = {
@@ -178,13 +182,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				94C27D001B8C9A35003E4F45 /* Downloader.cpp in Sources */,
-				944FD3EA1B923E02001A50E8 /* Uploader.cpp in Sources */,
 				942745D61B87E69B003570C3 /* Village.cpp in Sources */,
 				94C27CFA1B8A483F003E4F45 /* Map.cpp in Sources */,
 				94C27CFD1B8A87FA003E4F45 /* Utilities.cpp in Sources */,
 				9497C4B61B83D83E0023B69C /* Tribe.cpp in Sources */,
 				9497C4A81B8365CE0023B69C /* main.cpp in Sources */,
 				9497C4B81B840B010023B69C /* Player.cpp in Sources */,
+				94C885471BB2FCDE00E8E2E3 /* Uploader.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -211,6 +215,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -229,6 +234,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "-lssl";
 				SDKROOT = macosx;
 			};
 			name = Debug;
@@ -264,6 +270,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "-lssl";
 				SDKROOT = macosx;
 			};
 			name = Release;
@@ -272,18 +279,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				ARCHS = "$(ARCHS_STANDARD)";
+				CLANG_CXX_LIBRARY = "libc++";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
 				);
+				GCC_VERSION = "";
 				LIBRARY_SEARCH_PATHS = (
-					/Users/ltorroba/Documents/Git/libs3/build/lib,
 					"$(inherited)",
+					/usr/lib,
 					/usr/local/lib,
-					"/Users/ltorroba/Documents/Git/azure-storage-cpp/Microsoft.WindowsAzure.Storage/build.release/Binaries",
-					/Users/ltorroba/Documents/Git/casablanca/Release/build.release/Binaries,
-					/usr/local/Cellar/boost/1.58.0/lib,
+					/usr/local/Cellar/openssl/1.0.2d_1/lib,
 				);
 				OTHER_CFLAGS = "";
 				OTHER_CPLUSPLUSFLAGS = (
@@ -292,11 +298,11 @@
 				);
 				OTHER_LDFLAGS = (
 					"-v",
+					"-lssl",
 					"-lcairo",
-					"-lboost_system",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/** /usr/local/Cellar/cairo/1.14.2_1/include/cairo /usr/local/Cellar/boost/1.58.0/include/ ~/Documents/Git/libs3/build/include/";
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/** /usr/local/Cellar/cairo/1.14.2_1/include/cairo /usr/local/Cellar/openssl/1.0.2d_1/include/";
 			};
 			name = Debug;
 		};
@@ -304,18 +310,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				ARCHS = "$(ARCHS_STANDARD)";
+				CLANG_CXX_LIBRARY = "libc++";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
 				);
+				GCC_VERSION = "";
 				LIBRARY_SEARCH_PATHS = (
-					/Users/ltorroba/Documents/Git/libs3/build/lib,
 					"$(inherited)",
+					/usr/lib,
 					/usr/local/lib,
-					"/Users/ltorroba/Documents/Git/azure-storage-cpp/Microsoft.WindowsAzure.Storage/build.release/Binaries",
-					/Users/ltorroba/Documents/Git/casablanca/Release/build.release/Binaries,
-					/usr/local/Cellar/boost/1.58.0/lib,
+					/usr/local/Cellar/openssl/1.0.2d_1/lib,
 				);
 				OTHER_CFLAGS = "";
 				OTHER_CPLUSPLUSFLAGS = (
@@ -324,11 +329,11 @@
 				);
 				OTHER_LDFLAGS = (
 					"-v",
+					"-lssl",
 					"-lcairo",
-					"-lboost_system",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/** /usr/local/Cellar/cairo/1.14.2_1/include/cairo /usr/local/Cellar/boost/1.58.0/include/ ~/Documents/Git/libs3/build/include/";
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/** /usr/local/Cellar/cairo/1.14.2_1/include/cairo /usr/local/Cellar/openssl/1.0.2d_1/include/";
 			};
 			name = Release;
 		};

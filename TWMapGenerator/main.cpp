@@ -14,6 +14,7 @@
 #include <unordered_map>
 #include <thread>
 #include <algorithm>
+#include <string>
 
 #include "Tribe.h"
 #include "Player.h"
@@ -42,11 +43,11 @@ void download_continent_data(unsigned long continent, unsigned long world, strin
 
 int main(int argc, const char * argv[]) {
     // TODO: Use getopt to get this, world, etc.
-    string account = argv[1];
-    string key = argv[2];
+    const char *access_key_id = argv[1];
+    const char *secret_access_key = argv[2];
     
-    cout << "Azure account: " << account << endl;
-    cout << "Azure access key: " << key << endl;
+    cout << "AWS access key ID: " << access_key_id << endl;
+    cout << "AWS secret access key: " << secret_access_key << endl;
     
     // Initialize libcurl
     curl_global_init(CURL_GLOBAL_ALL);
@@ -98,12 +99,17 @@ int main(int argc, const char * argv[]) {
     
     cout << "Generating images..." << endl;
     
-    Map::generate_top_tribes_map("/Users/ltorroba/Desktop/top_tribes.png", &tribe_map, &player_map, &village_map, server_upper, world, timestamp);
-    Map::generate_top_players_map("/Users/ltorroba/Desktop/top_players.png", &player_map, &village_map, server_upper, world, timestamp);
-    Map::generate_top_oda_map("/Users/ltorroba/Desktop/top_oda.png", &player_map, &village_map, server_upper, world, timestamp);
-    Map::generate_top_odd_map("/Users/ltorroba/Desktop/top_odd.png", &player_map, &village_map, server_upper, world, timestamp);
-
-    Uploader::aws_upload("/Users/ltorroba/Desktop/top_tribes.png", "top_tribes.png", server, world, timestamp, account, key);
+    // Initialize uploader
+    Uploader u = Uploader(access_key_id, secret_access_key);
+    
+    // Generate maps
+    vector<char> data_top_tribes = Map::generate_top_tribes_map("/Users/ltorroba/Desktop/top_tribes.png", &tribe_map, &player_map, &village_map, server_upper, world, timestamp);
+    vector<char> data_top_players = Map::generate_top_players_map("/Users/ltorroba/Desktop/top_players.png", &player_map, &village_map, server_upper, world, timestamp);
+    vector<char> data_top_oda = Map::generate_top_oda_map("/Users/ltorroba/Desktop/top_oda.png", &player_map, &village_map, server_upper, world, timestamp);
+    vector<char> data_top_odd = Map::generate_top_odd_map("/Users/ltorroba/Desktop/top_odd.png", &player_map, &village_map, server_upper, world, timestamp);
+    
+    // Upload maps
+    u.aws_upload(data_top_tribes, "top_tribes.png", server, world, timestamp);
     
     // Destroy libcurl
     curl_global_cleanup();
