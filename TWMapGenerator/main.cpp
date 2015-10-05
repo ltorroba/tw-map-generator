@@ -110,6 +110,9 @@ int main(int argc, const char * argv[]) {
     
     // Upload maps
     u.aws_upload(data_top_tribes, "top_tribes.png", server, world, timestamp);
+    u.aws_upload(data_top_players, "top_players.png", server, world, timestamp);
+    u.aws_upload(data_top_oda, "top_players_oda.png", server, world, timestamp);
+    u.aws_upload(data_top_odd, "top_players_odd.png", server, world, timestamp);
     
     // Destroy libcurl
     curl_global_cleanup();

@@ -43,6 +43,8 @@ public:
     static void draw_sidebar_top_oda(cairo_t *cr, std::string server, int world, long timestamp, std::vector<Player*> players);
     static void draw_sidebar_top_odd(cairo_t *cr, std::string server, int world, long timestamp, std::vector<Player*> players);
     
+    static void draw_deleted_snippet(cairo_t *cr, int base);
+    
     static std::vector<RGB> get_palette();
     static void set_palette (int color, cairo_t *cr);
     static void set_palette (int color, double alpha, cairo_t *cr);

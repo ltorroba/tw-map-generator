@@ -48,10 +48,10 @@ cairo_status_t Map::write_png_stream_to_byte_array (void *in_closure, const unsi
     (png_stream_to_byte_array_closure_t *) in_closure;
     
     /*if ((closure->current_position + length) > (closure->end_of_array))
-        return CAIRO_STATUS_WRITE_ERROR;
-    
-    memcpy (closure->current_position, data, length);
-    closure->current_position += length;*/
+     return CAIRO_STATUS_WRITE_ERROR;
+     
+     memcpy (closure->current_position, data, length);
+     closure->current_position += length;*/
     
     for(int i = 0; i < length; i++)
         closure->output->push_back(data[i]);
@@ -76,6 +76,30 @@ vector<RGB> Map::get_palette() {
     palette.push_back(RGB(153, 255, 0)); // Lime
     
     return palette;
+}
+
+void Map::draw_deleted_snippet(cairo_t *cr, int base) {
+    cairo_set_source_rgb(cr, 157.0/256.0, 157.0/256.0, 157.0/256.0);
+    
+    // First line
+    cairo_set_font_size(cr, 50.0);
+    cairo_move_to(cr, 30.0, base + 50.0);
+    cairo_show_text(cr, "DELETED");
+    
+    // Points (top 40 players)
+    cairo_set_font_size(cr, 30.0);
+    cairo_move_to(cr, 30.0, base + 80.0);
+    cairo_show_text(cr, "N/A");
+    
+    // Village count
+    cairo_set_font_size(cr, 30.0);
+    cairo_move_to(cr, 30.0, base + 110.0);
+    cairo_show_text(cr, "N/A");
+    
+    // Member count
+    cairo_set_font_size(cr, 30.0);
+    cairo_move_to(cr, 30.0, base + 140.0);
+    cairo_show_text(cr, "N/A");
 }
 
 void Map::set_palette (int id, cairo_t *cr) {
@@ -158,7 +182,7 @@ string Map::pretty_number(unsigned long int n) {
     return pretty;
 }
 
-string Map::pretty_date() {    
+string Map::pretty_date() {
     auto t = time(nullptr);
     
     return pretty_date(t);
@@ -251,45 +275,49 @@ void Map::draw_sidebar_top_tribes(cairo_t *cr, std::string server, int world, lo
         
         double base = 230.0 + 150.0*color;
         
-        // Tag
-        cairo_set_font_size(cr, 50.0);
-        cairo_move_to(cr, 30.0, base + 50.0);
-        cairo_show_text(cr, t->get_tag().c_str());
-        
-        // Points (top 40 players)
-        cairo_set_font_size(cr, 30.0);
-        cairo_move_to(cr, 30.0, base + 80.0);
-        
-        ss.str("");
-        ss << pretty_number(t->get_points()).c_str() << " points";
-        
-        cairo_show_text(cr, ss.str().c_str());
-        
-        // Village count
-        cairo_set_font_size(cr, 30.0);
-        cairo_move_to(cr, 30.0, base + 110.0);
-        
-        ss.str("");
-        ss << pretty_number(Utilities::get_village_count(t)).c_str() << " villages";
-        
-        cairo_show_text(cr, ss.str().c_str());
-        
-        // Member count
-        cairo_set_font_size(cr, 30.0);
-        cairo_move_to(cr, 30.0, base + 140.0);
-        
-        ss.str("");
-        ss << pretty_number(t->get_members()).c_str() << " members";
-        
-        cairo_show_text(cr, ss.str().c_str());
+        if(t != NULL) {
+            // Tag
+            cairo_set_font_size(cr, 50.0);
+            cairo_move_to(cr, 30.0, base + 50.0);
+            cairo_show_text(cr, t->get_tag().c_str());
+            
+            // Points (top 40 players)
+            cairo_set_font_size(cr, 30.0);
+            cairo_move_to(cr, 30.0, base + 80.0);
+            
+            ss.str("");
+            ss << pretty_number(t->get_points()).c_str() << " points";
+            
+            cairo_show_text(cr, ss.str().c_str());
+            
+            // Village count
+            cairo_set_font_size(cr, 30.0);
+            cairo_move_to(cr, 30.0, base + 110.0);
+            
+            ss.str("");
+            ss << pretty_number(Utilities::get_village_count(t)).c_str() << " villages";
+            
+            cairo_show_text(cr, ss.str().c_str());
+            
+            // Member count
+            cairo_set_font_size(cr, 30.0);
+            cairo_move_to(cr, 30.0, base + 140.0);
+            
+            ss.str("");
+            ss << pretty_number(t->get_members()).c_str() << " members";
+            
+            cairo_show_text(cr, ss.str().c_str());
+        } else {
+            draw_deleted_snippet(cr, base);
+        }
         
         color++;
     }
 }
 
 vector<char> Map::generate_top_tribes_map(string filename, unordered_map<int, Tribe*> *tribe_map,
-                                  unordered_map<int, Player*> *player_map, unordered_map<int, Village*> *village_map,
-                                  string server, int world, long timestamp) {
+                                          unordered_map<int, Player*> *player_map, unordered_map<int, Village*> *village_map,
+                                          string server, int world, long timestamp) {
     cout << "Generating top tribes map..." << endl;
     
     cairo_surface_t *surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 2600, 2000);
@@ -307,27 +335,31 @@ vector<char> Map::generate_top_tribes_map(string filename, unordered_map<int, Tr
     int color = 0;
     
     for(auto t : tribes) {
-        vector<Player*> players = t->get_players();
-        
-        cairo_set_line_width(cr, 1.0);
-        
-        for(auto p : players) {
-            for(auto v : p->get_villages()) {
-                int x = v->get_x();
-                int y = v->get_y();
-                
-                set_palette(color, cr);
-                cairo_rectangle(cr, x-1, y-1, 3, 3);
-                cairo_fill(cr);
-                
-                cairo_set_source_rgba(cr, 0.0, 0.0, 0.0, 0.35);
-                cairo_rectangle(cr, x-1, y-1, 3, 3);
-                cairo_stroke(cr);
+        if(t != NULL) {
+            vector<Player*> players = t->get_players();
+            
+            cairo_set_line_width(cr, 1.0);
+            
+            for(auto p : players) {
+                if(p != NULL) {
+                    for(auto v : p->get_villages()) {
+                        int x = v->get_x();
+                        int y = v->get_y();
+                        
+                        set_palette(color, cr);
+                        cairo_rectangle(cr, x-1, y-1, 3, 3);
+                        cairo_fill(cr);
+                        
+                        cairo_set_source_rgba(cr, 0.0, 0.0, 0.0, 0.35);
+                        cairo_rectangle(cr, x-1, y-1, 3, 3);
+                        cairo_stroke(cr);
+                    }
+                }
             }
+            
+            color++;
+            cairo_fill(cr);
         }
-        
-        color++;
-        cairo_fill(cr);
     }
     
     // Draw grid
@@ -399,48 +431,52 @@ void Map::draw_sidebar_top_players(cairo_t *cr, std::string server, int world, l
         
         double base = 230.0 + 150.0*color;
         
-        // Tag
-        cairo_set_font_size(cr, 50.0);
-        cairo_move_to(cr, 30.0, base + 50.0);
-        cairo_show_text(cr, p->get_username().c_str());
-        
-        // Points
-        cairo_set_font_size(cr, 30.0);
-        cairo_move_to(cr, 30.0, base + 80.0);
-        
-        ss.str("");
-        ss << pretty_number(p->get_points()).c_str() << " points";
-        
-        cairo_show_text(cr, ss.str().c_str());
-        
-        // Village count
-        cairo_set_font_size(cr, 30.0);
-        cairo_move_to(cr, 30.0, base + 110.0);
-        
-        ss.str("");
-        ss << pretty_number(p->get_num_villages()).c_str() << " villages";
-        
-        cairo_show_text(cr, ss.str().c_str());
-        
-        // Member count
-        cairo_set_font_size(cr, 30.0);
-        cairo_move_to(cr, 30.0, base + 140.0);
-        
-        ss.str("");
-        
-        if(p->get_tribe() != NULL)
-            ss << "Member of " << (p->get_tribe())->get_tag();
-        else
-            ss << "Tribeless";
-        
-        cairo_show_text(cr, ss.str().c_str());
+        if(p != NULL) {
+            // Tag
+            cairo_set_font_size(cr, 50.0);
+            cairo_move_to(cr, 30.0, base + 50.0);
+            cairo_show_text(cr, p->get_username().c_str());
+            
+            // Points
+            cairo_set_font_size(cr, 30.0);
+            cairo_move_to(cr, 30.0, base + 80.0);
+            
+            ss.str("");
+            ss << pretty_number(p->get_points()).c_str() << " points";
+            
+            cairo_show_text(cr, ss.str().c_str());
+            
+            // Village count
+            cairo_set_font_size(cr, 30.0);
+            cairo_move_to(cr, 30.0, base + 110.0);
+            
+            ss.str("");
+            ss << pretty_number(p->get_num_villages()).c_str() << " villages";
+            
+            cairo_show_text(cr, ss.str().c_str());
+            
+            // Member count
+            cairo_set_font_size(cr, 30.0);
+            cairo_move_to(cr, 30.0, base + 140.0);
+            
+            ss.str("");
+            
+            if(p->get_tribe() != NULL)
+                ss << "Member of " << (p->get_tribe())->get_tag();
+            else
+                ss << "Tribeless";
+            
+            cairo_show_text(cr, ss.str().c_str());
+        } else {
+            draw_deleted_snippet(cr, base);
+        }
         
         color++;
     }
 }
 
 std::vector<char> Map::generate_top_players_map(std::string filename, std::unordered_map<int, Player*> *player_map, std::unordered_map<int, Village*> *village_map,
-                              std::string server, int world, long timestamp) {
+                                                std::string server, int world, long timestamp) {
     cout << "Generating top players map..." << endl;
     
     cairo_surface_t *surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 2600, 2000);
@@ -456,26 +492,28 @@ std::vector<char> Map::generate_top_players_map(std::string filename, std::unord
     vector<Player*> players = Utilities::get_top_players(10, player_map);
     
     int color = 0;
-
+    
     cairo_set_line_width(cr, 1.0);
     
     for(auto p : players) {
-        for(auto v : p->get_villages()) {
-            int x = v->get_x();
-            int y = v->get_y();
-            
-            set_palette(color, cr);
-            cairo_rectangle(cr, x-1, y-1, 3, 3);
-            cairo_fill(cr);
-            
-            cairo_set_source_rgba(cr, 0.0, 0.0, 0.0, 0.35);
-            cairo_rectangle(cr, x-1, y-1, 3, 3);
-            cairo_stroke(cr);
+        if(p != NULL) {
+            for(auto v : p->get_villages()) {
+                int x = v->get_x();
+                int y = v->get_y();
+                
+                set_palette(color, cr);
+                cairo_rectangle(cr, x-1, y-1, 3, 3);
+                cairo_fill(cr);
+                
+                cairo_set_source_rgba(cr, 0.0, 0.0, 0.0, 0.35);
+                cairo_rectangle(cr, x-1, y-1, 3, 3);
+                cairo_stroke(cr);
+            }
         }
         
         color++;
         cairo_fill(cr);
-    }   
+    }
     
     // Draw grid
     draw_grid(cr);
@@ -546,50 +584,54 @@ void Map::draw_sidebar_top_oda(cairo_t *cr, std::string server, int world, long 
         
         double base = 230.0 + 150.0*color;
         
-        // Tag
-        cairo_set_font_size(cr, 50.0);
-        cairo_move_to(cr, 30.0, base + 50.0);
-        cairo_show_text(cr, p->get_username().c_str());
-        
-        // Points
-        cairo_set_font_size(cr, 30.0);
-        cairo_move_to(cr, 30.0, base + 80.0);
-        
-        ss.str("");
-        ss << pretty_number(p->get_oda()).c_str() << " ODA";
-        
-        cairo_show_text(cr, ss.str().c_str());
-        
-        // Village count
-        cairo_set_font_size(cr, 30.0);
-        cairo_move_to(cr, 30.0, base + 110.0);
-        
-        double ratio = floor((p->get_oda()*100.0)/p->get_points())/100.0;
-        
-        ss.str("");
-        ss << ratio << " ODA per point";
-        
-        cairo_show_text(cr, ss.str().c_str());
-        
-        // Member count
-        cairo_set_font_size(cr, 30.0);
-        cairo_move_to(cr, 30.0, base + 140.0);
-        
-        ss.str("");
-        
-        if(p->get_tribe() != NULL)
-            ss << "Member of " << (p->get_tribe())->get_tag();
-        else
-            ss << "Tribeless";
-        
-        cairo_show_text(cr, ss.str().c_str());
+        if(p != NULL) {
+            // Tag
+            cairo_set_font_size(cr, 50.0);
+            cairo_move_to(cr, 30.0, base + 50.0);
+            cairo_show_text(cr, p->get_username().c_str());
+            
+            // Points
+            cairo_set_font_size(cr, 30.0);
+            cairo_move_to(cr, 30.0, base + 80.0);
+            
+            ss.str("");
+            ss << pretty_number(p->get_oda()).c_str() << " ODA";
+            
+            cairo_show_text(cr, ss.str().c_str());
+            
+            // Village count
+            cairo_set_font_size(cr, 30.0);
+            cairo_move_to(cr, 30.0, base + 110.0);
+            
+            double ratio = floor((p->get_oda()*100.0)/p->get_points())/100.0;
+            
+            ss.str("");
+            ss << ratio << " ODA per point";
+            
+            cairo_show_text(cr, ss.str().c_str());
+            
+            // Member count
+            cairo_set_font_size(cr, 30.0);
+            cairo_move_to(cr, 30.0, base + 140.0);
+            
+            ss.str("");
+            
+            if(p->get_tribe() != NULL)
+                ss << "Member of " << (p->get_tribe())->get_tag();
+            else
+                ss << "Tribeless";
+            
+            cairo_show_text(cr, ss.str().c_str());
+        } else {
+            draw_deleted_snippet(cr, base);
+        }
         
         color++;
     }
 }
 
 std::vector<char> Map::generate_top_oda_map(std::string filename, std::unordered_map<int, Player*> *player_map, std::unordered_map<int, Village*> *village_map,
-                                   std::string server, int world, long timestamp) {
+                                            std::string server, int world, long timestamp) {
     cout << "Generate top ODA map..." << endl;
     
     cairo_surface_t *surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 2600, 2000);
@@ -697,50 +739,54 @@ void Map::draw_sidebar_top_odd(cairo_t *cr, std::string server, int world, long 
         
         double base = 230.0 + 150.0*color;
         
-        // Tag
-        cairo_set_font_size(cr, 50.0);
-        cairo_move_to(cr, 30.0, base + 50.0);
-        cairo_show_text(cr, p->get_username().c_str());
-        
-        // Points
-        cairo_set_font_size(cr, 30.0);
-        cairo_move_to(cr, 30.0, base + 80.0);
-        
-        ss.str("");
-        ss << pretty_number(p->get_odd()).c_str() << " ODD";
-        
-        cairo_show_text(cr, ss.str().c_str());
-        
-        // Village count
-        cairo_set_font_size(cr, 30.0);
-        cairo_move_to(cr, 30.0, base + 110.0);
-        
-        double ratio = floor((p->get_odd()*100.0)/p->get_points())/100.0;
-        
-        ss.str("");
-        ss << ratio << " ODD per point";
-        
-        cairo_show_text(cr, ss.str().c_str());
-        
-        // Member count
-        cairo_set_font_size(cr, 30.0);
-        cairo_move_to(cr, 30.0, base + 140.0);
-        
-        ss.str("");
-        
-        if(p->get_tribe() != NULL)
-            ss << "Member of " << (p->get_tribe())->get_tag();
-        else
-            ss << "Tribeless";
-        
-        cairo_show_text(cr, ss.str().c_str());
+        if(p != NULL) {
+            // Tag
+            cairo_set_font_size(cr, 50.0);
+            cairo_move_to(cr, 30.0, base + 50.0);
+            cairo_show_text(cr, p->get_username().c_str());
+            
+            // Points
+            cairo_set_font_size(cr, 30.0);
+            cairo_move_to(cr, 30.0, base + 80.0);
+            
+            ss.str("");
+            ss << pretty_number(p->get_odd()).c_str() << " ODD";
+            
+            cairo_show_text(cr, ss.str().c_str());
+            
+            // Village count
+            cairo_set_font_size(cr, 30.0);
+            cairo_move_to(cr, 30.0, base + 110.0);
+            
+            double ratio = floor((p->get_odd()*100.0)/p->get_points())/100.0;
+            
+            ss.str("");
+            ss << ratio << " ODD per point";
+            
+            cairo_show_text(cr, ss.str().c_str());
+            
+            // Member count
+            cairo_set_font_size(cr, 30.0);
+            cairo_move_to(cr, 30.0, base + 140.0);
+            
+            ss.str("");
+            
+            if(p->get_tribe() != NULL)
+                ss << "Member of " << (p->get_tribe())->get_tag();
+            else
+                ss << "Tribeless";
+            
+            cairo_show_text(cr, ss.str().c_str());
+        } else {
+            draw_deleted_snippet(cr, base);
+        }
         
         color++;
     }
 }
 
 std::vector<char> Map::generate_top_odd_map(std::string filename, std::unordered_map<int, Player*> *player_map, std::unordered_map<int, Village*> *village_map,
-                               std::string server, int world, long timestamp) {
+                                            std::string server, int world, long timestamp) {
     cout << "Generate top ODD map..." << endl;
     
     cairo_surface_t *surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 2600, 2000);
@@ -760,17 +806,19 @@ std::vector<char> Map::generate_top_odd_map(std::string filename, std::unordered
     cairo_set_line_width(cr, 1.0);
     
     for(auto p : players) {
-        for(auto v : p->get_villages()) {
-            int x = v->get_x();
-            int y = v->get_y();
-            
-            set_palette(color, cr);
-            cairo_rectangle(cr, x-1, y-1, 3, 3);
-            cairo_fill(cr);
-            
-            cairo_set_source_rgba(cr, 0.0, 0.0, 0.0, 0.35);
-            cairo_rectangle(cr, x-1, y-1, 3, 3);
-            cairo_stroke(cr);
+        if(p != NULL) {
+            for(auto v : p->get_villages()) {
+                int x = v->get_x();
+                int y = v->get_y();
+                
+                set_palette(color, cr);
+                cairo_rectangle(cr, x-1, y-1, 3, 3);
+                cairo_fill(cr);
+                
+                cairo_set_source_rgba(cr, 0.0, 0.0, 0.0, 0.35);
+                cairo_rectangle(cr, x-1, y-1, 3, 3);
+                cairo_stroke(cr);
+            }
         }
         
         color++;
