@@ -17,6 +17,7 @@
 #include "Player.h"
 #include "Village.h"
 #include "Utilities.h"
+#include "Map.h"
 
 #include "Downloader.h"
 
@@ -176,5 +177,32 @@ void Downloader::update_village_map(string json, unordered_map<int, Tribe*> *tri
             if(owner != nullptr)
                 owner->add_village(v);
         }
+    }
+}
+
+void Downloader::update_family_list(string json, std::vector<Family*> *families, unordered_map<int, Tribe*> *tribe_map) {
+    rapidjson::Document document;
+    document.Parse<0>(json.c_str());
+    
+    rapidjson::Value& families_data_object = document["families"];
+    
+    for(rapidjson::Value::MemberIterator itr = families_data_object.MemberBegin(); itr != families_data_object.MemberEnd(); ++itr) {
+        rapidjson::Value& arr = itr->value;
+        
+        Family *f = new Family(itr->name.GetString());
+        
+        for(int i = 0; i < arr.Size(); i++) {
+            Tribe*& ptr = (*tribe_map)[atoi(arr[i].GetString())];
+            
+            if(ptr != NULL) {
+                f->tribes.push_back(ptr);
+                f->points += ptr->get_total_points();
+                f->villages += Utilities::get_village_count(ptr);
+                f->members += ptr->get_members();
+            }
+        }
+        
+        if(f->tribes.size() > 0)
+            families->push_back(f);
     }
 }

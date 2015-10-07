@@ -41,6 +41,13 @@ void download_continent_data(unsigned long continent, unsigned long world, strin
     out->push_back(ContinentData(continent, data));
 }
 
+void download_world_metadata(unsigned int world, string server, vector<Family*> *out, std::unordered_map<int, Tribe*> *tribe_map) {
+    ostringstream temp;
+    temp << "http://twmaps.s3.amazonaws.com/" << server << world << "/data";
+    string data = Downloader::download_string(temp.str());
+    Downloader::update_family_list(data, out, tribe_map);
+}
+
 int main(int argc, const char * argv[]) {
     // TODO: Use getopt to get this, world, etc.
     const char *access_key_id = argv[1];
@@ -56,6 +63,7 @@ int main(int argc, const char * argv[]) {
     unordered_map<int, Tribe*> tribe_map;
     unordered_map<int, Player*> player_map;
     unordered_map<int, Village*> village_map;
+    vector<Family*> families;
     
     vector<Tribe*> top_tribes;
     vector<Player*> top_players;
@@ -97,22 +105,27 @@ int main(int argc, const char * argv[]) {
         cout << "Village map size: " << village_map.size() << endl;
     }
     
-    cout << "Generating images..." << endl;
+    cout << "Downloading world metadata..." << endl;
+    download_world_metadata(world, server, &families, &tribe_map);
     
-    // Initialize uploader
-    Uploader u = Uploader(access_key_id, secret_access_key);
+    cout << "Generating images..." << endl;
     
     // Generate maps
     vector<char> data_top_tribes = Map::generate_top_tribes_map("/Users/ltorroba/Desktop/top_tribes.png", &tribe_map, &player_map, &village_map, server_upper, world, timestamp);
     vector<char> data_top_players = Map::generate_top_players_map("/Users/ltorroba/Desktop/top_players.png", &player_map, &village_map, server_upper, world, timestamp);
     vector<char> data_top_oda = Map::generate_top_oda_map("/Users/ltorroba/Desktop/top_oda.png", &player_map, &village_map, server_upper, world, timestamp);
     vector<char> data_top_odd = Map::generate_top_odd_map("/Users/ltorroba/Desktop/top_odd.png", &player_map, &village_map, server_upper, world, timestamp);
+    vector<char> data_top_families = Map::generate_top_families_map("/Users/ltorroba/Desktop/top_families.png", &tribe_map, &families, server_upper, world, timestamp);
+    
+    // Initialize uploader
+    Uploader u = Uploader(access_key_id, secret_access_key);
     
     // Upload maps
     u.aws_upload(data_top_tribes, "top_tribes.png", server, world, timestamp);
     u.aws_upload(data_top_players, "top_players.png", server, world, timestamp);
     u.aws_upload(data_top_oda, "top_players_oda.png", server, world, timestamp);
     u.aws_upload(data_top_odd, "top_players_odd.png", server, world, timestamp);
+    u.aws_upload(data_top_families, "top_families.png", server, world, timestamp);
     
     // Destroy libcurl
     curl_global_cleanup();

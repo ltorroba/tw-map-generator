@@ -31,4 +31,5 @@ public:
     static void update_player_map (std::string json, std::unordered_map<int, Tribe*> *tribe_map, std::unordered_map<int, Player*> *player_map);
     static void update_village_map(std::string json, std::unordered_map<int, Tribe*> *tribe_map, std::unordered_map<int, Player*> *player_map,
                                    std::unordered_map<int, Village*> *village_map);
+    static void update_family_list(std::string json, std::vector<Family*> *families, std::unordered_map<int, Tribe*> *tribe_map);
 };

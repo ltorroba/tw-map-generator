@@ -15,6 +15,8 @@
 #include "Tribe.h"
 #include "Player.h"
 #include "Village.h"
+#include "Map.h"
+#include "Downloader.h"
 
 using namespace std;
 
@@ -50,8 +52,77 @@ vector<Tribe*> Utilities::get_top_tribes(int number, unordered_map<int, Tribe*> 
     return final;
 }
 
+std::vector<Tribe*> Utilities::get_filtered_tribes(int number, std::vector<Family*> *families, std::unordered_map<int, Tribe*> *tribe_map) {
+    std::vector<Tribe*> unadmissible_tribes;
+    
+    // Construct unadmissible list of tribes
+    for(auto f : *families) {
+        for(auto t : f->tribes) {
+            unadmissible_tribes.push_back(t);
+        }
+    }
+    
+    std::vector<Tribe*> whitelist;
+    // Build whitelist
+    for(auto t : *tribe_map) {
+        bool flag = false;
+        
+        for(auto u : unadmissible_tribes) {
+            if(u == t.second) {
+                flag = true;
+                break;
+            }
+        }
+        
+        if(!flag)
+            whitelist.push_back(t.second);
+    }
+    
+    std::vector<Tribe*> final;
+    // Order whitelist and prune it to get final
+    sort(whitelist.begin(), whitelist.end(), is_global_tribe_better);
+    
+    for(int i = 0; i < number; i++)
+        if(i < whitelist.size())
+            final.push_back(whitelist[i]);
+        else
+            break;
+    
+    return final;
+}
+
+vector<Family*> Utilities::get_top_families(int number, vector<Family*> *families) {
+    vector<Family*> list;
+    
+    // Copy families to temp list
+    for (auto f : *families) 
+        list.push_back(f);
+    
+    sort(list.begin(), list.end(), is_family_better);
+    
+    // Prune entries
+    vector<Family*> pruned_list;
+    
+    for(int i = 0; i < number; i++)
+        if(i < list.size())
+            pruned_list.push_back(list[i]);
+        else
+            break;
+    
+    return pruned_list;
+}
+
+bool Utilities::is_global_tribe_better(Tribe *i, Tribe *j) {
+    // Compare total points as this is for family comparison
+    return i->get_total_points() > j->get_total_points();
+}
+
 bool Utilities::is_tribe_better(Local_Tribe *i, Local_Tribe *j) {
      return i->points > j->points;
+}
+
+bool Utilities::is_family_better(Family *i, Family *j) {
+    return i->points > j->points;
 }
 
 struct Local_Player {

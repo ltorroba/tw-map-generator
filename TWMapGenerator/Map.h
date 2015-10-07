@@ -21,6 +21,18 @@ class Tribe;
 
 struct RGB;
 
+struct Family {
+    std::string name;
+    std::vector<Tribe*> tribes;
+    unsigned long points;
+    unsigned long villages;
+    unsigned long members;
+    
+    Family (std::string n) {
+        name = n;
+    }
+};
+
 class Map {
     static cairo_status_t write_png_stream_to_byte_array (void *in_closure, const unsigned char *data, unsigned int length);
 public:
@@ -33,6 +45,7 @@ public:
                                      std::string server, int world, long timestamp);
     static std::vector<char> generate_top_odd_map(std::string filename, std::unordered_map<int, Player*> *player_map, std::unordered_map<int, Village*> *village_map,
                                      std::string server, int world, long timestamp);
+    static std::vector<char> generate_top_families_map(std::string filename, std::unordered_map<int, Tribe*> *tribe_map, std::vector<Family*> *families, std::string server, int world, long timestamp);
     
     static void draw_background(cairo_t *cr);
     static void draw_grid(cairo_t *cr);
@@ -42,6 +55,7 @@ public:
     static void draw_sidebar_top_players(cairo_t *cr, std::string server, int world, long timestamp, std::vector<Player*> players);
     static void draw_sidebar_top_oda(cairo_t *cr, std::string server, int world, long timestamp, std::vector<Player*> players);
     static void draw_sidebar_top_odd(cairo_t *cr, std::string server, int world, long timestamp, std::vector<Player*> players);
+    static void draw_sidebar_top_families(cairo_t *cr, std::string server, int world, long timestamp, std::vector<Family*> top_families, std::vector<Tribe*> filtered_tribes);
     
     static void draw_deleted_snippet(cairo_t *cr, int base);
     
