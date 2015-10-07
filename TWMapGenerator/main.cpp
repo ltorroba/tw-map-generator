@@ -118,14 +118,23 @@ int main(int argc, const char * argv[]) {
     vector<char> data_top_families = Map::generate_top_families_map("/Users/ltorroba/Desktop/top_families.png", &tribe_map, &families, server_upper, world, timestamp);
     
     // Initialize uploader
-    Uploader u = Uploader(access_key_id, secret_access_key);
+    Uploader u = Uploader(access_key_id, secret_access_key, server, world);
     
-    // Upload maps
-    u.aws_upload(data_top_tribes, "top_tribes.png", server, world, timestamp);
-    u.aws_upload(data_top_players, "top_players.png", server, world, timestamp);
-    u.aws_upload(data_top_oda, "top_players_oda.png", server, world, timestamp);
-    u.aws_upload(data_top_odd, "top_players_odd.png", server, world, timestamp);
-    u.aws_upload(data_top_families, "top_families.png", server, world, timestamp);
+    // aws_parse_bucket_name(server, world) + "/" + aws_parse_object_path(name, timestamp)
+    
+    // Upload maps to date folder
+    u.aws_upload(data_top_tribes, u.aws_parse_object_path("top_tribes.png", timestamp));
+    u.aws_upload(data_top_players, u.aws_parse_object_path("top_players.png", timestamp));
+    u.aws_upload(data_top_oda, u.aws_parse_object_path("top_players_oda.png", timestamp));
+    u.aws_upload(data_top_odd, u.aws_parse_object_path("top_players_odd.png", timestamp));
+    u.aws_upload(data_top_families, u.aws_parse_object_path("top_families.png", timestamp));
+    
+    // Update root maps
+    u.aws_upload(data_top_tribes, "top_tribes.png");
+    u.aws_upload(data_top_players, "top_players.png");
+    u.aws_upload(data_top_oda, "top_players_oda.png");
+    u.aws_upload(data_top_odd, "top_players_odd.png");
+    u.aws_upload(data_top_families, "top_families.png");
     
     // Destroy libcurl
     curl_global_cleanup();

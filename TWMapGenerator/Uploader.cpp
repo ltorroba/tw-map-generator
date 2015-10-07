@@ -43,12 +43,12 @@ string Uploader::aws_parse_object_path(string name, long timestamp) {
 }
 
 // Credits: https://forums.aws.amazon.com/thread.jspa?threadID=23308
-Uploader::Uploader(const char* aws_access_key, const char* aws_secret_key)
-: AWS_ACCESS_KEY(aws_access_key), AWS_SECRET_KEY(aws_secret_key) { }
+Uploader::Uploader(const char* aws_access_key, const char* aws_secret_key, std::string server, int world)
+: AWS_ACCESS_KEY(aws_access_key), AWS_SECRET_KEY(aws_secret_key), SERVER(server), WORLD(world) { }
 
 Uploader::~Uploader() { }
 
-void Uploader::aws_upload(vector<char> data, std::string name, std::string server, int world, unsigned long timestamp) {
+void Uploader::aws_upload(vector<char> data, std::string path) {
     string region = "us-east-1";
     string service = "s3";
     
@@ -56,7 +56,7 @@ void Uploader::aws_upload(vector<char> data, std::string name, std::string serve
     if (!curl)
         cout << "Error initializing curl!" << endl;
     
-    string path = aws_parse_bucket_name(server, world) + "/" + aws_parse_object_path(name, timestamp);
+    path = aws_parse_bucket_name(SERVER, WORLD) + "/" + path;
     string url = "http://twmaps.s3.amazonaws.com/" + path;
     
     curl_easy_setopt(curl, CURLOPT_UPLOAD, 1);
