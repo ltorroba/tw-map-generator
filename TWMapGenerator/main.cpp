@@ -96,13 +96,13 @@ int main(int argc, const char * argv[]) {
         
         // Process downloaded data
         Downloader::update_tribe_map(data[i].json, &tribe_map);
-        cout << "Tribe map size: " << tribe_map.size() << endl;
+        //cout << "Tribe map size: " << tribe_map.size() << endl;
         
         Downloader::update_player_map(data[i].json, &tribe_map, &player_map);
-        cout << "Player map size: " << player_map.size() << endl;
+        //cout << "Player map size: " << player_map.size() << endl;
         
         Downloader::update_village_map(data[i].json, &tribe_map, &player_map, &village_map);
-        cout << "Village map size: " << village_map.size() << endl;
+        //cout << "Village map size: " << village_map.size() << endl;
     }
     
     cout << "Downloading world metadata..." << endl;
@@ -119,8 +119,6 @@ int main(int argc, const char * argv[]) {
     
     // Initialize uploader
     Uploader u = Uploader(access_key_id, secret_access_key, server, world);
-    
-    // aws_parse_bucket_name(server, world) + "/" + aws_parse_object_path(name, timestamp)
     
     // Upload maps to date folder
     u.aws_upload(data_top_tribes, u.aws_parse_object_path("top_tribes.png", timestamp));

@@ -47,16 +47,8 @@ cairo_status_t Map::write_png_stream_to_byte_array (void *in_closure, const unsi
     png_stream_to_byte_array_closure_t *closure =
     (png_stream_to_byte_array_closure_t *) in_closure;
     
-    /*if ((closure->current_position + length) > (closure->end_of_array))
-     return CAIRO_STATUS_WRITE_ERROR;
-     
-     memcpy (closure->current_position, data, length);
-     closure->current_position += length;*/
-    
     for(int i = 0; i < length; i++)
         closure->output->push_back(data[i]);
-    
-    
     
     return CAIRO_STATUS_SUCCESS;
 }
@@ -194,7 +186,18 @@ string Map::pretty_date(long timestamp) {
     auto t = timestamp;
     auto tm = localtime(&t);
     
-    ss << put_time(tm, "%A, %B %e, %Y");
+    ss << put_time(tm, "%e");
+    
+    char day[3];
+    strcpy(day, ss.str().c_str());
+    
+    if (day[0] == ' ') {
+        day[0] = day[1];
+        day[1] = '\0';
+    }
+    
+    ss.str("");
+    ss << put_time(tm, "%A, %B ") << string(day) << put_time(tm, ", %Y");
     
     return ss.str();
 }
@@ -228,6 +231,21 @@ void Map::draw_sidebar_base(cairo_t *cr, string server, int world) {
     
     cairo_set_font_size(cr, 30.0);
     cairo_move_to(cr, 30.0, 1970.0);
+    cairo_show_text(cr, ss.str().c_str());
+    
+    // Draw beta sign - BG: rgb(39, 174, 96)
+    cairo_set_source_rgb(cr, 39.0/256.0, 174.0/256.0, 96.0/256.0);
+    cairo_rectangle(cr, 350.0, 1911.0, 65.0, 30.0);
+    cairo_fill(cr);
+    
+    cairo_select_font_face(cr, "helvetica", CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_BOLD);
+    cairo_set_source_rgb(cr, 1.0, 1.0, 1.0);
+    
+    ss.str("");
+    ss << "BETA";
+    
+    cairo_set_font_size (cr, 20.0);
+    cairo_move_to(cr, 355.0, 1934.0);
     cairo_show_text(cr, ss.str().c_str());
 }
 
