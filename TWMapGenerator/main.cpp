@@ -110,12 +110,23 @@ int main(int argc, const char * argv[]) {
     
     cout << "Generating images..." << endl;
     
-    // Generate maps
-    vector<char> data_top_tribes = Map::generate_top_tribes_map("/Users/ltorroba/Desktop/top_tribes.png", &tribe_map, &player_map, &village_map, server_upper, world, timestamp);
-    vector<char> data_top_players = Map::generate_top_players_map("/Users/ltorroba/Desktop/top_players.png", &player_map, &village_map, server_upper, world, timestamp);
-    vector<char> data_top_oda = Map::generate_top_oda_map("/Users/ltorroba/Desktop/top_oda.png", &player_map, &village_map, server_upper, world, timestamp);
-    vector<char> data_top_odd = Map::generate_top_odd_map("/Users/ltorroba/Desktop/top_odd.png", &player_map, &village_map, server_upper, world, timestamp);
-    vector<char> data_top_families = Map::generate_top_families_map("/Users/ltorroba/Desktop/top_families.png", &tribe_map, &families, server_upper, world, timestamp);
+    // Generate standard res maps
+    Map standard_res(900, 692);
+    
+    vector<char> data_top_tribes = standard_res.generate_top_tribes_map(&tribe_map, &player_map, &village_map, server_upper, world, timestamp);
+    vector<char> data_top_players = standard_res.generate_top_players_map(&player_map, &village_map, server_upper, world, timestamp);
+    vector<char> data_top_oda = standard_res.generate_top_oda_map(&player_map, &village_map, server_upper, world, timestamp);
+    vector<char> data_top_odd = standard_res.generate_top_odd_map(&player_map, &village_map, server_upper, world, timestamp);
+    vector<char> data_top_families = standard_res.generate_top_families_map(&tribe_map, &families, server_upper, world, timestamp);
+    
+    // Generate high res maps
+    Map high_res(2600, 2000);
+    
+    vector<char> data_top_tribes_hr = high_res.generate_top_tribes_map(&tribe_map, &player_map, &village_map, server_upper, world, timestamp);
+    vector<char> data_top_players_hr = high_res.generate_top_players_map(&player_map, &village_map, server_upper, world, timestamp);
+    vector<char> data_top_oda_hr = high_res.generate_top_oda_map(&player_map, &village_map, server_upper, world, timestamp);
+    vector<char> data_top_odd_hr = high_res.generate_top_odd_map(&player_map, &village_map, server_upper, world, timestamp);
+    vector<char> data_top_families_hr = high_res.generate_top_families_map(&tribe_map, &families, server_upper, world, timestamp);
     
     // Initialize uploader
     Uploader u = Uploader(access_key_id, secret_access_key, server, world);
@@ -127,12 +138,24 @@ int main(int argc, const char * argv[]) {
     u.aws_upload(data_top_odd, u.aws_parse_object_path("top_players_odd.png", timestamp));
     u.aws_upload(data_top_families, u.aws_parse_object_path("top_families.png", timestamp));
     
+    u.aws_upload(data_top_tribes_hr, u.aws_parse_object_path("top_tribes_hr.png", timestamp));
+    u.aws_upload(data_top_players_hr, u.aws_parse_object_path("top_players_hr.png", timestamp));
+    u.aws_upload(data_top_oda_hr, u.aws_parse_object_path("top_players_oda_hr.png", timestamp));
+    u.aws_upload(data_top_odd_hr, u.aws_parse_object_path("top_players_odd_hr.png", timestamp));
+    u.aws_upload(data_top_families_hr, u.aws_parse_object_path("top_families_hr.png", timestamp));
+    
     // Update root maps
     u.aws_upload(data_top_tribes, "top_tribes.png");
     u.aws_upload(data_top_players, "top_players.png");
     u.aws_upload(data_top_oda, "top_players_oda.png");
     u.aws_upload(data_top_odd, "top_players_odd.png");
     u.aws_upload(data_top_families, "top_families.png");
+    
+    u.aws_upload(data_top_tribes_hr, "top_tribes_hr.png");
+    u.aws_upload(data_top_players_hr, "top_players_hr.png");
+    u.aws_upload(data_top_oda_hr, "top_players_oda_hr.png");
+    u.aws_upload(data_top_odd_hr, "top_players_odd_hr.png");
+    u.aws_upload(data_top_families_hr, "top_families_hr.png");
     
     // Destroy libcurl
     curl_global_cleanup();
