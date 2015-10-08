@@ -12,6 +12,7 @@
 #include <cmath>
 #include <algorithm>
 #include <iomanip>
+#include <cstring>
 #include <ctime>
 #include <fstream>
 

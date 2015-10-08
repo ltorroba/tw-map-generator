@@ -17,6 +17,8 @@
 #include <ctime>
 #include <iomanip>
 #include <sstream>
+#include <cstring>
+#include <algorithm>
 
 using namespace std;
 
