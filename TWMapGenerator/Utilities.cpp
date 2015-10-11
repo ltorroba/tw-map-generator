@@ -33,6 +33,8 @@ vector<Tribe*> Utilities::get_top_tribes(int number, unordered_map<int, Tribe*> 
     vector<Local_Tribe*> list;
     
     for (auto pair : *tribe_map) {
+        if(pair.second == NULL) continue;
+        
         unsigned long int rank = (pair.second)->get_points_rank();
         
         if(rank <= number) {
@@ -58,6 +60,7 @@ std::vector<Tribe*> Utilities::get_filtered_tribes(int number, std::vector<Famil
     // Construct unadmissible list of tribes
     for(auto f : *families) {
         for(auto t : f->tribes) {
+            if(t == NULL) continue;
             unadmissible_tribes.push_back(t);
         }
     }
@@ -65,9 +68,13 @@ std::vector<Tribe*> Utilities::get_filtered_tribes(int number, std::vector<Famil
     std::vector<Tribe*> whitelist;
     // Build whitelist
     for(auto t : *tribe_map) {
+        if(t.second == NULL) continue;
+        
         bool flag = false;
         
         for(auto u : unadmissible_tribes) {
+            if(u == NULL) continue;
+            
             if(u == t.second) {
                 flag = true;
                 break;
