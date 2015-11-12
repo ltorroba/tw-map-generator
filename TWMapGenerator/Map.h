@@ -30,6 +30,9 @@ struct Family {
     
     Family (std::string n) {
         name = n;
+        points = 0;
+        villages = 0;
+        members = 0;
     }
 };
 

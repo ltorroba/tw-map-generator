@@ -766,7 +766,7 @@ void Map::draw_sidebar_top_families(cairo_t *cr, std::string server, int world, 
         
         if(top_families.size() <= family_id && filtered_tribes.size() <= tribe_id)
             break;
-        else if(filtered_tribes.size() <= tribe_id || top_families[family_id]->points > filtered_tribes[tribe_id]->get_total_points()) {
+        else if(filtered_tribes.size() <= tribe_id || (top_families.size() > family_id && top_families[family_id]->points > filtered_tribes[tribe_id]->get_total_points())) {
             // Family comes next in rank
             Family *f = top_families[family_id];
             
@@ -874,7 +874,7 @@ vector<char> Map::generate_top_families_map(std::unordered_map<int, Tribe*> *tri
     for(int i = 0; i < 10; i++) {
         if(top_families.size() <= family_id && filtered_tribes.size() <= tribe_id)
             break;
-        else if(filtered_tribes.size() <= tribe_id || top_families[family_id]->points > filtered_tribes[tribe_id]->get_total_points()) {
+        else if(filtered_tribes.size() <= tribe_id || (top_families.size() > family_id && top_families[family_id]->points > filtered_tribes[tribe_id]->get_total_points())) {
             // Family comes next in rank
             for(auto t : top_families[family_id]->tribes) {
                 if(t != NULL) {
