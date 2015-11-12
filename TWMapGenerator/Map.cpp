@@ -126,7 +126,7 @@ void Map::draw_grid(cairo_t *cr) {
     }
     
     // Draw continent numbers
-    cairo_select_font_face(cr, "helvetica", CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_BOLD);
+    cairo_select_font_face(cr, FONT_FAMILY.c_str(), CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_BOLD);
     cairo_set_font_size (cr, 16.0);
     
     for(int x = 0; x <= 9; x += 1) {
@@ -226,7 +226,7 @@ void Map::draw_sidebar_base(cairo_t *cr, string server, int world, long timestam
     cairo_move_to(cr, 30.0, 1940.0);
     cairo_show_text(cr, ss.str().c_str());
     
-    cairo_select_font_face(cr, "helvetica", CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_NORMAL);
+    cairo_select_font_face(cr, FONT_FAMILY.c_str(), CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_NORMAL);
     
     ss.str("");
     ss << "www.zes.me";
@@ -240,7 +240,7 @@ void Map::draw_sidebar_base(cairo_t *cr, string server, int world, long timestam
     cairo_rectangle(cr, 350.0, 1911.0, 65.0, 30.0);
     cairo_fill(cr);
     
-    cairo_select_font_face(cr, "helvetica", CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_BOLD);
+    cairo_select_font_face(cr, FONT_FAMILY.c_str(), CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_BOLD);
     cairo_set_source_rgb(cr, 1.0, 1.0, 1.0);
     
     ss.str("");
@@ -278,7 +278,7 @@ void Map::draw_sidebar_top_tribes(cairo_t *cr, std::string server, int world, lo
     // Draw title
     cairo_set_source_rgb(cr, 1.0, 1.0, 1.0);
     
-    cairo_select_font_face(cr, "helvetica", CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_BOLD);
+    cairo_select_font_face(cr, FONT_FAMILY.c_str(), CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_BOLD);
     cairo_set_font_size (cr, 72.0);
     
     ostringstream ss;
@@ -396,7 +396,7 @@ void Map::draw_sidebar_top_players(cairo_t *cr, std::string server, int world, l
     // Draw title
     cairo_set_source_rgb(cr, 1.0, 1.0, 1.0);
     
-    cairo_select_font_face(cr, "helvetica", CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_BOLD);
+    cairo_select_font_face(cr, FONT_FAMILY.c_str(), CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_BOLD);
     cairo_set_font_size (cr, 64.0);
     
     ostringstream ss;
@@ -511,7 +511,7 @@ void Map::draw_sidebar_top_oda(cairo_t *cr, std::string server, int world, long 
     // Draw title
     cairo_set_source_rgb(cr, 1.0, 1.0, 1.0);
     
-    cairo_select_font_face(cr, "helvetica", CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_BOLD);
+    cairo_select_font_face(cr, FONT_FAMILY.c_str(), CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_BOLD);
     cairo_set_font_size (cr, 64.0);
     
     ostringstream ss;
@@ -628,7 +628,7 @@ void Map::draw_sidebar_top_odd(cairo_t *cr, std::string server, int world, long 
     // Draw title
     cairo_set_source_rgb(cr, 1.0, 1.0, 1.0);
     
-    cairo_select_font_face(cr, "helvetica", CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_BOLD);
+    cairo_select_font_face(cr, FONT_FAMILY.c_str(), CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_BOLD);
     cairo_set_font_size (cr, 64.0);
     
     ostringstream ss;
@@ -745,7 +745,7 @@ void Map::draw_sidebar_top_families(cairo_t *cr, std::string server, int world, 
     // Draw title
     cairo_set_source_rgb(cr, 1.0, 1.0, 1.0);
     
-    cairo_select_font_face(cr, "helvetica", CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_BOLD);
+    cairo_select_font_face(cr, FONT_FAMILY.c_str(), CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_BOLD);
     cairo_set_font_size (cr, 72.0);
     
     ostringstream ss;

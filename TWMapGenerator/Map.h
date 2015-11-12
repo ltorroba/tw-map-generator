@@ -39,6 +39,7 @@ struct Family {
 class Map {
     double WIDTH = 1000.0;
     double HEIGHT = 800.0;
+    std::string FONT_FAMILY = "Open Sans";
     
     static cairo_status_t write_png_stream_to_byte_array (void *in_closure, const unsigned char *data, unsigned int length);
     
