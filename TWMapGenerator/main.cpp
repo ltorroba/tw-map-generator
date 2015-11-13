@@ -15,6 +15,7 @@
 #include <thread>
 #include <algorithm>
 #include <string>
+#include <unistd.h>
 
 #include "Tribe.h"
 #include "Player.h"
@@ -48,13 +49,52 @@ void download_world_metadata(unsigned int world, string server, vector<Family*> 
     Downloader::update_family_list(data, out, tribe_map);
 }
 
-int main(int argc, const char * argv[]) {
-    // TODO: Use getopt to get this, world, etc.
-    const char *access_key_id = argv[1];
-    const char *secret_access_key = argv[2];
+int main(int argc, char * argv[]) {
+    // Process command line arguments
+    char *access_key_id = nullptr;
+    char *secret_access_key = nullptr;
+    string server = "";
+    int world = 0;
     
-    cout << "AWS access key ID: " << access_key_id << endl;
-    cout << "AWS secret access key: " << secret_access_key << endl;
+    int c;
+    while((c = getopt(argc, argv, "k:a:s:w:")) != -1) {
+        switch(c) {
+            case 'k':
+                access_key_id = optarg;
+                break;
+            case 'a':
+                secret_access_key = optarg;
+                break;
+            case 's':
+            {
+                ostringstream ss;
+                ss << optarg;
+                server = ss.str();
+                break;
+            }
+            case 'w':
+                world = atoi(optarg);
+                break;
+            case '?':
+                if(optopt == 'k' || optopt == 'a' || optopt == 's' || optopt == 'w')
+                    cerr << "Option -" << optopt << " requires an argument." << endl;
+                else
+                    cerr << "Unknown option character." << endl;
+                return 1;
+            default:
+                abort();
+        }
+    }
+    
+    if(access_key_id == nullptr || secret_access_key == nullptr || server == "" || world <= 0) {
+        cerr << "Insufficient or invalid arguments." << endl;
+        return 1;
+    }
+    
+    cout << "AWS access key ID: " << string(access_key_id) << endl;
+    cout << "AWS secret access key: " << string(secret_access_key) << endl;
+    cout << "Server: " << server << endl;
+    cout << "World: " << world << endl;
     
     // Initialize libcurl
     curl_global_init(CURL_GLOBAL_ALL);
@@ -74,8 +114,6 @@ int main(int argc, const char * argv[]) {
     
     // Configs
     unsigned long timestamp = time(nullptr);
-    int world = 70;
-    string server = "br";
     
     string server_upper = server;
     transform(server_upper.begin(), server_upper.end(), server_upper.begin(), ::toupper);
