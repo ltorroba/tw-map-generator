@@ -40,7 +40,7 @@ void download_continent_data(unsigned long continent, unsigned long world, strin
     string url = Downloader::generate_continent_json_url(continent, world, server, timestamp);
     
     if(!Downloader::url_exists(url)) {
-        cerr << "Data for K" << continent << " " << server << world << " is unavailable." << endl;`
+        cerr << "Data for K" << continent << " " << server << world << " is unavailable." << endl;
         abort();
     }
     
