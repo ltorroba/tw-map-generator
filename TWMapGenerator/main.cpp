@@ -67,9 +67,10 @@ int main(int argc, char * argv[]) {
     char *secret_access_key = nullptr;
     string server = "";
     int world = 0;
+    bool upload = false;
     
     int c;
-    while((c = getopt(argc, argv, "k:a:s:w:")) != -1) {
+    while((c = getopt(argc, argv, "k:a:s:w:u")) != -1) {
         switch(c) {
             case 'k':
                 access_key_id = optarg;
@@ -86,6 +87,9 @@ int main(int argc, char * argv[]) {
             }
             case 'w':
                 world = atoi(optarg);
+                break;
+            case 'u':
+                upload = true;
                 break;
             case '?':
                 if(optopt == 'k' || optopt == 'a' || optopt == 's' || optopt == 'w')
@@ -178,34 +182,36 @@ int main(int argc, char * argv[]) {
     vector<char> data_top_odd_hr = high_res.generate_top_odd_map(&player_map, &village_map, server_upper, world, timestamp);
     vector<char> data_top_families_hr = high_res.generate_top_families_map(&tribe_map, &families, server_upper, world, timestamp);
     
-    // Initialize uploader
-    Uploader u = Uploader(access_key_id, secret_access_key, server, world);
-    
-    // Upload maps to date folder
-    u.aws_upload(data_top_tribes, u.aws_parse_object_path("top_tribes.png", timestamp));
-    u.aws_upload(data_top_players, u.aws_parse_object_path("top_players.png", timestamp));
-    u.aws_upload(data_top_oda, u.aws_parse_object_path("top_players_oda.png", timestamp));
-    u.aws_upload(data_top_odd, u.aws_parse_object_path("top_players_odd.png", timestamp));
-    u.aws_upload(data_top_families, u.aws_parse_object_path("top_families.png", timestamp));
-    
-    u.aws_upload(data_top_tribes_hr, u.aws_parse_object_path("top_tribes_hr.png", timestamp));
-    u.aws_upload(data_top_players_hr, u.aws_parse_object_path("top_players_hr.png", timestamp));
-    u.aws_upload(data_top_oda_hr, u.aws_parse_object_path("top_players_oda_hr.png", timestamp));
-    u.aws_upload(data_top_odd_hr, u.aws_parse_object_path("top_players_odd_hr.png", timestamp));
-    u.aws_upload(data_top_families_hr, u.aws_parse_object_path("top_families_hr.png", timestamp));
-    
-    // Update root maps
-    u.aws_upload(data_top_tribes, "top_tribes.png");
-    u.aws_upload(data_top_players, "top_players.png");
-    u.aws_upload(data_top_oda, "top_players_oda.png");
-    u.aws_upload(data_top_odd, "top_players_odd.png");
-    u.aws_upload(data_top_families, "top_families.png");
-    
-    u.aws_upload(data_top_tribes_hr, "top_tribes_hr.png");
-    u.aws_upload(data_top_players_hr, "top_players_hr.png");
-    u.aws_upload(data_top_oda_hr, "top_players_oda_hr.png");
-    u.aws_upload(data_top_odd_hr, "top_players_odd_hr.png");
-    u.aws_upload(data_top_families_hr, "top_families_hr.png");
+    if(upload) {
+        // Initialize uploader
+        Uploader u = Uploader(access_key_id, secret_access_key, server, world);
+        
+        // Upload maps to date folder
+        u.aws_upload(data_top_tribes, u.aws_parse_object_path("top_tribes.png", timestamp));
+        u.aws_upload(data_top_players, u.aws_parse_object_path("top_players.png", timestamp));
+        u.aws_upload(data_top_oda, u.aws_parse_object_path("top_players_oda.png", timestamp));
+        u.aws_upload(data_top_odd, u.aws_parse_object_path("top_players_odd.png", timestamp));
+        u.aws_upload(data_top_families, u.aws_parse_object_path("top_families.png", timestamp));
+        
+        u.aws_upload(data_top_tribes_hr, u.aws_parse_object_path("top_tribes_hr.png", timestamp));
+        u.aws_upload(data_top_players_hr, u.aws_parse_object_path("top_players_hr.png", timestamp));
+        u.aws_upload(data_top_oda_hr, u.aws_parse_object_path("top_players_oda_hr.png", timestamp));
+        u.aws_upload(data_top_odd_hr, u.aws_parse_object_path("top_players_odd_hr.png", timestamp));
+        u.aws_upload(data_top_families_hr, u.aws_parse_object_path("top_families_hr.png", timestamp));
+        
+        // Update root maps
+        u.aws_upload(data_top_tribes, "top_tribes.png");
+        u.aws_upload(data_top_players, "top_players.png");
+        u.aws_upload(data_top_oda, "top_players_oda.png");
+        u.aws_upload(data_top_odd, "top_players_odd.png");
+        u.aws_upload(data_top_families, "top_families.png");
+        
+        u.aws_upload(data_top_tribes_hr, "top_tribes_hr.png");
+        u.aws_upload(data_top_players_hr, "top_players_hr.png");
+        u.aws_upload(data_top_oda_hr, "top_players_oda_hr.png");
+        u.aws_upload(data_top_odd_hr, "top_players_odd_hr.png");
+        u.aws_upload(data_top_families_hr, "top_families_hr.png");
+    }
     
     // Destroy libcurl
     curl_global_cleanup();
