@@ -59,6 +59,32 @@ string Downloader::download_string(string url) {
     return read_buffer;
 }
 
+bool Downloader::url_exists(string url) {
+    string data;
+    CURL *curl;
+    CURLcode res;
+    string read_buffer;
+    
+    string search_string = "<Code>AccessDenied</Code>";
+    
+    curl = curl_easy_init();
+    if(curl) {
+        curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_callback);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &read_buffer);
+        res = curl_easy_perform(curl);
+        
+        if(res != CURLE_OK)
+            return false;
+        else if(read_buffer.find(search_string) != string::npos)
+            return false;
+        
+        curl_easy_cleanup(curl);
+    }
+    
+    return true;
+}
+
 void Downloader::update_tribe_map(string json, unordered_map<int, Tribe*> *tribe_map) {
     rapidjson::Document document;
     document.Parse<0>(json.c_str());

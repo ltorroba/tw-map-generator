@@ -38,6 +38,12 @@ struct ContinentData {
 
 void download_continent_data(unsigned long continent, unsigned long world, string server, unsigned long timestamp, vector<ContinentData> *out) {
     string url = Downloader::generate_continent_json_url(continent, world, server, timestamp);
+    
+    if(!Downloader::url_exists(url)) {
+        cerr << "Data for K" << continent << " " << server << world << " is unavailable." << endl;`
+        abort();
+    }
+    
     string data = Downloader::download_string(url);
     out->push_back(ContinentData(continent, data));
 }
@@ -45,6 +51,12 @@ void download_continent_data(unsigned long continent, unsigned long world, strin
 void download_world_metadata(unsigned int world, string server, vector<Family*> *out, std::unordered_map<int, Tribe*> *tribe_map) {
     ostringstream temp;
     temp << "http://twmaps.s3.amazonaws.com/" << server << world << "/data";
+    
+    if(!Downloader::url_exists(temp.str())) {
+        cerr << "Metadata file for " << server << world << " does not exist." << endl;
+        abort();
+    }
+    
     string data = Downloader::download_string(temp.str());
     Downloader::update_family_list(data, out, tribe_map);
 }

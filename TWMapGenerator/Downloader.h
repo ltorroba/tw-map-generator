@@ -26,6 +26,7 @@ public:
     static std::string generate_continent_json_url(int continent, int world, std::string server, long timestamp);
     static std::string generate_continent_json_url(int continent, int world, std::string server);
     static std::string download_string(std::string url);
+    static bool url_exists(std::string url);
     
     static void update_tribe_map(std::string json, std::unordered_map<int, Tribe*> *tribe_map);
     static void update_player_map (std::string json, std::unordered_map<int, Tribe*> *tribe_map, std::unordered_map<int, Player*> *player_map);
