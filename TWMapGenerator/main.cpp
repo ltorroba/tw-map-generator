@@ -69,7 +69,7 @@ int main(int argc, char * argv[]) {
     int world = 0;
     bool UPLOAD = false;
     bool SAVE_LOCAL = false;
-    string upload_path = "";
+    string save_path = "";
     
     int c;
     while((c = getopt(argc, argv, ":k:a:s:w:ul::")) != -1) {
@@ -95,7 +95,7 @@ int main(int argc, char * argv[]) {
                 break;
             case 'l':
                 SAVE_LOCAL = true;
-                upload_path = string(optarg);
+                save_path = string(optarg);
                 break;
             case ':':
                 if(optopt == 'k' || optopt == 'a' || optopt == 's' || optopt == 'w') {
@@ -123,7 +123,7 @@ int main(int argc, char * argv[]) {
     cout << "Server: " << server << endl;
     cout << "World: " << world << endl;
     cout << "Upload flag: " << (UPLOAD ? "true" : "false") << endl;
-    cout << "Save local flag: " << (SAVE_LOCAL ? "true | Location: " + upload_path : "false") << endl;
+    cout << "Save local flag: " << (SAVE_LOCAL ? "true | Location: " + save_path : "false") << endl;
     
     // Initialize libcurl
     curl_global_init(CURL_GLOBAL_ALL);
@@ -229,19 +229,19 @@ int main(int argc, char * argv[]) {
     }
     
     if(SAVE_LOCAL) {
-        cout << "Saving images locally to " << upload_path << "..." << endl;
+        cout << "Saving images locally to " << save_path << "..." << endl;
         
-        Map::save_local(data_top_tribes, upload_path + "top_tribes.png");
-        Map::save_local(data_top_players, upload_path + "top_players.png");
-        Map::save_local(data_top_oda, upload_path + "top_players_oda.png");
-        Map::save_local(data_top_odd, upload_path + "top_players_odd.png");
-        Map::save_local(data_top_families, upload_path + "top_families.png");
+        Map::save_local(data_top_tribes, save_path + "top_tribes.png");
+        Map::save_local(data_top_players, save_path + "top_players.png");
+        Map::save_local(data_top_oda, save_path + "top_players_oda.png");
+        Map::save_local(data_top_odd, save_path + "top_players_odd.png");
+        Map::save_local(data_top_families, save_path + "top_families.png");
         
-        Map::save_local(data_top_tribes_hr, upload_path + "top_tribes_hr.png");
-        Map::save_local(data_top_players_hr, upload_path + "top_players_hr.png");
-        Map::save_local(data_top_oda_hr, upload_path + "top_players_oda_hr.png");
-        Map::save_local(data_top_odd_hr, upload_path + "top_players_odd_hr.png");
-        Map::save_local(data_top_families_hr, upload_path + "top_families_hr.png");
+        Map::save_local(data_top_tribes_hr, save_path + "top_tribes_hr.png");
+        Map::save_local(data_top_players_hr, save_path + "top_players_hr.png");
+        Map::save_local(data_top_oda_hr, save_path + "top_players_oda_hr.png");
+        Map::save_local(data_top_odd_hr, save_path + "top_players_odd_hr.png");
+        Map::save_local(data_top_families_hr, save_path + "top_families_hr.png");
     }
     
     // Destroy libcurl
