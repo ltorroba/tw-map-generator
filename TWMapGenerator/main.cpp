@@ -67,10 +67,12 @@ int main(int argc, char * argv[]) {
     char *secret_access_key = nullptr;
     string server = "";
     int world = 0;
-    bool upload = false;
+    bool UPLOAD = false;
+    bool SAVE_LOCAL = false;
+    string upload_path = "";
     
     int c;
-    while((c = getopt(argc, argv, "k:a:s:w:u")) != -1) {
+    while((c = getopt(argc, argv, ":k:a:s:w:ul::")) != -1) {
         switch(c) {
             case 'k':
                 access_key_id = optarg;
@@ -89,13 +91,22 @@ int main(int argc, char * argv[]) {
                 world = atoi(optarg);
                 break;
             case 'u':
-                upload = true;
+                UPLOAD = true;
+                break;
+            case 'l':
+                SAVE_LOCAL = true;
+                upload_path = string(optarg);
+                break;
+            case ':':
+                if(optopt == 'k' || optopt == 'a' || optopt == 's' || optopt == 'w') {
+                    cerr << "Option -" << optopt << " requires an argument." << endl;
+                    return 1;
+                } else if (optopt == 'l') {
+                    SAVE_LOCAL = true;
+                }
                 break;
             case '?':
-                if(optopt == 'k' || optopt == 'a' || optopt == 's' || optopt == 'w')
-                    cerr << "Option -" << optopt << " requires an argument." << endl;
-                else
-                    cerr << "Unknown option character." << endl;
+                cerr << "Unknown option character." << endl;
                 return 1;
             default:
                 abort();
@@ -111,6 +122,8 @@ int main(int argc, char * argv[]) {
     cout << "AWS secret access key: " << string(secret_access_key) << endl;
     cout << "Server: " << server << endl;
     cout << "World: " << world << endl;
+    cout << "Upload flag: " << (UPLOAD ? "true" : "false") << endl;
+    cout << "Save local flag: " << (SAVE_LOCAL ? "true | Location: " + upload_path : "false") << endl;
     
     // Initialize libcurl
     curl_global_init(CURL_GLOBAL_ALL);
@@ -182,7 +195,9 @@ int main(int argc, char * argv[]) {
     vector<char> data_top_odd_hr = high_res.generate_top_odd_map(&player_map, &village_map, server_upper, world, timestamp);
     vector<char> data_top_families_hr = high_res.generate_top_families_map(&tribe_map, &families, server_upper, world, timestamp);
     
-    if(upload) {
+    if(UPLOAD) {
+        cout << "Uploading files to AWS..." << endl;
+        
         // Initialize uploader
         Uploader u = Uploader(access_key_id, secret_access_key, server, world);
         
@@ -211,6 +226,22 @@ int main(int argc, char * argv[]) {
         u.aws_upload(data_top_oda_hr, "top_players_oda_hr.png");
         u.aws_upload(data_top_odd_hr, "top_players_odd_hr.png");
         u.aws_upload(data_top_families_hr, "top_families_hr.png");
+    }
+    
+    if(SAVE_LOCAL) {
+        cout << "Saving images locally to " << upload_path << "..." << endl;
+        
+        Map::save_local(data_top_tribes, upload_path + "top_tribes.png");
+        Map::save_local(data_top_players, upload_path + "top_players.png");
+        Map::save_local(data_top_oda, upload_path + "top_players_oda.png");
+        Map::save_local(data_top_odd, upload_path + "top_players_odd.png");
+        Map::save_local(data_top_families, upload_path + "top_families.png");
+        
+        Map::save_local(data_top_tribes_hr, upload_path + "top_tribes_hr.png");
+        Map::save_local(data_top_players_hr, upload_path + "top_players_hr.png");
+        Map::save_local(data_top_oda_hr, upload_path + "top_players_oda_hr.png");
+        Map::save_local(data_top_odd_hr, upload_path + "top_players_odd_hr.png");
+        Map::save_local(data_top_families_hr, upload_path + "top_families_hr.png");
     }
     
     // Destroy libcurl

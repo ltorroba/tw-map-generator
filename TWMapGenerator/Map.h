@@ -74,7 +74,7 @@ public:
     std::vector<char> generate_top_odd_map(std::unordered_map<int, Player*> *player_map, std::unordered_map<int, Village*> *village_map,  std::string server, int world, long timestamp);
     std::vector<char> generate_top_families_map(std::unordered_map<int, Tribe*> *tribe_map, std::vector<Family*> *families, std::string server, int world, long timestamp);
     
-    void save_local(std::string path, std::vector<char> bytes);
+    static void save_local(std::vector<char> bytes, std::string path);
 };
 
 #endif /* defined(__TWMapGenerator__Map__) */

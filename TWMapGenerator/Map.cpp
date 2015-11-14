@@ -973,7 +973,7 @@ vector<char> Map::finalize_canvas(cairo_surface_t *surface, cairo_t *cr) {
     return bytes;
 }
 
-void Map::save_local(std::string path, std::vector<char> bytes) {
+void Map::save_local(std::vector<char> bytes, std::string path) {
     ofstream fout(path);
     
     if(fout.is_open()) {
