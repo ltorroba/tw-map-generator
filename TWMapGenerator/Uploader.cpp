@@ -180,7 +180,7 @@ void Uploader::aws_upload(vector<char> data, std::string path) {
     headers = curl_slist_append(headers, temp_ss.str().c_str());
     headers = curl_slist_append(headers, string("Content-Type:image/png").c_str());
     
-    curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
+    curl_easy_setopt(curl, CURLOPT_VERBOSE, 0L);
     
     curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
     curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, NULL);
