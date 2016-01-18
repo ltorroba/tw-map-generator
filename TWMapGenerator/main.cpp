@@ -48,9 +48,9 @@ void download_continent_data(unsigned long continent, unsigned long world, strin
     out->push_back(ContinentData(continent, data));
 }
 
-void download_world_metadata(unsigned int world, string server, vector<Family*> *out, std::unordered_map<int, Tribe*> *tribe_map) {
+void download_world_metadata(unsigned int world, string server, vector<Family*> *out, std::unordered_map<int, Tribe*> *tribe_map, string url) {
     ostringstream temp;
-    temp << "http://twmaps.s3.amazonaws.com/" << server << world << "/data";
+    temp << url << "?s=" << server << "&w=" << world;
     
     if(!Downloader::url_exists(temp.str())) {
         cerr << "Metadata file for " << server << world << " does not exist." << endl;
@@ -58,7 +58,7 @@ void download_world_metadata(unsigned int world, string server, vector<Family*> 
     }
     
     string data = Downloader::download_string(temp.str());
-    Downloader::update_family_list(data, out, tribe_map);
+    Downloader::process_metadata(data, out, tribe_map);
 }
 
 int main(int argc, char * argv[]) {
@@ -69,43 +69,51 @@ int main(int argc, char * argv[]) {
     int world = 0;
     bool UPLOAD = false;
     bool SAVE_LOCAL = false;
+    string metadata_url = "";
     string save_path = "";
     
     int c;
-    while((c = getopt(argc, argv, ":k:a:s:w:ul::")) != -1) {
+    while((c = getopt(argc, argv, ":k:a:s:w:m:ul::")) != -1) {
         switch(c) {
-            case 'k':
+            case 'k': // AWS access key ID
                 access_key_id = optarg;
                 break;
-            case 'a':
+            case 'a': // AWS secret access key
                 secret_access_key = optarg;
                 break;
-            case 's':
+            case 's': // Server to be scraped
             {
                 ostringstream ss;
                 ss << optarg;
                 server = ss.str();
                 break;
             }
-            case 'w':
+            case 'w': // World to be scraped on that server
                 world = atoi(optarg);
                 break;
-            case 'u':
+            case 'm': // Metadata file URL. More information on the format for this URL and it's response in the documentation. Example: http://maps.zes.me/metadata.php
+            {
+                ostringstream ss;
+                ss << optarg;
+                metadata_url = ss.str();
+                break;
+            }
+            case 'u': // Upload result to AWS?
                 UPLOAD = true;
                 break;
-            case 'l':
+            case 'l': // Save results locally to path (if no path is supplied, they will be saved at the binary's location)
                 SAVE_LOCAL = true;
                 save_path = string(optarg);
                 break;
-            case ':':
-                if(optopt == 'k' || optopt == 'a' || optopt == 's' || optopt == 'w') {
+            case ':': // Handle lack of arguments
+                if(optopt == 'k' || optopt == 'a' || optopt == 's' || optopt == 'w' || optopt == 'm') {
                     cerr << "Option -" << optopt << " requires an argument." << endl;
                     return 1;
                 } else if (optopt == 'l') {
                     SAVE_LOCAL = true;
                 }
                 break;
-            case '?':
+            case '?': // Handle invalid flags
                 cerr << "Unknown option character." << endl;
                 return 1;
             default:
@@ -122,6 +130,7 @@ int main(int argc, char * argv[]) {
     cout << "AWS secret access key: " << string(secret_access_key) << endl;
     cout << "Server: " << server << endl;
     cout << "World: " << world << endl;
+    cout << "Metadata: " << metadata_url << endl;
     cout << "Upload flag: " << (UPLOAD ? "true" : "false") << endl;
     cout << "Save local flag: " << (SAVE_LOCAL ? "true | Location: " + save_path : "false") << endl;
     
@@ -159,21 +168,15 @@ int main(int argc, char * argv[]) {
     for(int i = 0; i <= 99; i++) {
         // Join continent thread
         threads[i]->join();
-        //delete threads[i];
         
-        // Process downloaded data
+        // Process downloaded datsa
         Downloader::update_tribe_map(data[i].json, &tribe_map);
-        //cout << "Tribe map size: " << tribe_map.size() << endl;
-        
         Downloader::update_player_map(data[i].json, &tribe_map, &player_map);
-        //cout << "Player map size: " << player_map.size() << endl;
-        
         Downloader::update_village_map(data[i].json, &tribe_map, &player_map, &village_map);
-        //cout << "Village map size: " << village_map.size() << endl;
     }
     
     cout << "Downloading world metadata..." << endl;
-    download_world_metadata(world, server, &families, &tribe_map);
+    download_world_metadata(world, server, &families, &tribe_map, metadata_url);
     
     cout << "Generating images..." << endl;
     

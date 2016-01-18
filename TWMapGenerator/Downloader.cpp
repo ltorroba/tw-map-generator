@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Lucas Torroba. All rights reserved.
 //
 
+#include <iostream>
 #include <sstream>
 #include <string>
 #include <curl/curl.h>
@@ -206,10 +207,20 @@ void Downloader::update_village_map(string json, unordered_map<int, Tribe*> *tri
     }
 }
 
-void Downloader::update_family_list(string json, std::vector<Family*> *families, unordered_map<int, Tribe*> *tribe_map) {
+void Downloader::process_metadata(string json, std::vector<Family*> *families, unordered_map<int, Tribe*> *tribe_map) {
     rapidjson::Document document;
     document.Parse<0>(json.c_str());
     
+    // Load errors (if any)
+    rapidjson::Value& error_data_object = document["error"];
+    
+    if(error_data_object.IsString()) {
+        const char *error = error_data_object.GetString();
+        
+        cout << "ERROR WHEN PROCESSING METADATA: " << error << endl;
+    }
+    
+    // Load & update families table
     rapidjson::Value& families_data_object = document["families"];
     
     for(rapidjson::Value::MemberIterator itr = families_data_object.MemberBegin(); itr != families_data_object.MemberEnd(); ++itr) {
