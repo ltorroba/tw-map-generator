@@ -170,7 +170,7 @@ struct Coordinate {
 Coordinate Downloader::parse_coordinate(string s) {
     vector<string> arr = split(s, '-');
     
-    assert(arr.size() == 3);
+    assert(arr.size() >= 3);
     
     Coordinate c;
     c.x = atoi(arr[1].c_str());
