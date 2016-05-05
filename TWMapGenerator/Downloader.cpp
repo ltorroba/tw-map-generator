@@ -27,8 +27,7 @@ using namespace std;
 string Downloader::generate_continent_json_url(int continent, int world, string server, long timestamp) {
     ostringstream url;
     
-    url << "http://" << server << world << ".tribalwarsmap.com/" <<
-    server << "/continent/" << continent << "?ms=" << timestamp;
+    url << "http://" << server << world << ".tribalwarsmap.com/continent/" << continent << "?ms=" << timestamp;
     
     return url.str();
 }
