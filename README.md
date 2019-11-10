@@ -42,7 +42,7 @@ As of v1.0.0, the following arguments must be passed on execution:
 - `-s [2 character TW server code]` -- 2 character TW server code, in lowercase. Example: "br", "ru", "pl"
 - `-w [world number]` -- World number. Must be integer. Example: 23, 99, 104, 3
 - `-m [metadata page URL]` -- URL for metadata TW world metadata information. http://maps.zes.me/metadata.php works fine in most cases
-- `-l` (optional) [path (optional)] -- Save generated images locally. If no path is specified, they are saved at the executable's directory.
+- `-l [path (optional)]` (optional)  -- Save generated images locally. If no path is specified, they are saved at the executable's directory.
 - `-u` (optional) -- Upload images to AWS.
 
 ## Contributing
